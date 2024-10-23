@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample name</title>
+</head>
+<body>
+
+<p>
+    <a th:href="@{/people}"> return to home page</a>
+</p>
+
+<p th:text="${person.getId()}" > Value </p>
+<p th:text="${person.getAge()}" > Value </p>
+<p th:text="${person.getFullName()}"> Value </p>
+
+<a th:href="@{/people/{id}/edit(id=${person.getId()})}"> Edit person </a>
+
+<hr>
+
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+
+</body>
+</html>
