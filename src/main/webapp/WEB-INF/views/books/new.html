@@ -2,9 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Adding book</title>
 </head>
 <body>
+
+<form th:method="POST" th:action="@{/books}" th:object="${book}">
+
+    <label for="title"> Enter book name</label>
+    <input type="text" th:field="*{title}" id="title"/>
+    <br/>
+
+    <label for="author"> Enter author</label>
+    <input type="text" th:field="*{author}" id="author"/>
+    <br/>
+
+    <label for="year"> Release of year</label>
+    <input type="text" th:field="*{year}" id="year"/>
+    <br/>
+
+    <input type="submit" value="Create!"/>
+
+</form>
+
 
 </body>
 </html>
