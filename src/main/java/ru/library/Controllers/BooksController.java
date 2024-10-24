@@ -29,11 +29,13 @@ public class BooksController {
     }
 
     @PostMapping()
-    public String create (@ModelAttribute("book") @Valid Book book,
+    public String create(@ModelAttribute("book") @Valid Book book,
                           BindingResult br) {
         if (br.hasErrors()) return "books/new";
         bookDAO.save(book);
         return "redirect:/books";
     }
+
+
 
 }

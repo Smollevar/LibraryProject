@@ -1,15 +1,18 @@
 package ru.library.Models;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public class Book extends Library{
     private int id;
-    @NotEmpty
+    @NotEmpty(message = "Book must have title")
     private String title;
-    @NotEmpty
+    @NotEmpty(message = "Book must have author")
     private String author;
-    @NotNull
+    @Min(value = 1, message = "Set in rage from 1 to 2024")
+    @Max(value = 2024, message = "Set in rage from 1 to 2024")
     private int year;
     private boolean isTaken;
 
