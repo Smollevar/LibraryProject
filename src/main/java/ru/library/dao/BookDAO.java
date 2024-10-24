@@ -27,4 +27,13 @@ public class BookDAO {
                 book.getAuthor(), book.getYear());
     }
 
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM Book WHERE id = ?", id);
+    }
+
+    public Book show(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE id = ?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
+                .stream().findAny().orElse(null);
+    }
+
 }

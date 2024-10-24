@@ -23,6 +23,16 @@ public class BooksController {
         return "books/index";
     }
 
+    @GetMapping("{id}")
+    public String show(Model model, @PathVariable("id") int id) {
+        Book book = null;
+        book = bookDAO.show(id);
+        if (book != null) {
+            model.addAttribute("book", book);
+        } else System.out.println("Book not found");
+        return "books/show";
+    }
+
     @GetMapping("/new")
     public String newBook (@ModelAttribute("book") Book book) {
         return "books/new";
@@ -36,6 +46,11 @@ public class BooksController {
         return "redirect:/books";
     }
 
+    @DeleteMapping("{id}")
+    public String delete(@PathVariable("id") int id) {
+        bookDAO.delete(id);
+        return "redirect:/books";
+    }
 
 
 }

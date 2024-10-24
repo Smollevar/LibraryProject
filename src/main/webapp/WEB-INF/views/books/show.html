@@ -2,9 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Book information</title>
 </head>
 <body>
+
+<p>
+    <a th:href="@{/books}"> home page </a>
+</p>
+
+<p th:text="${book.getTitle()}"> Title </p>
+<p th:text="${book.getAuthor()}"> Author </p>
+<p th:text="${book.getYear()}"> Year </p>
+
+<a th:href="@{/books/{id}/edit(id=${book.getId()})}"> Edit book</a>
+
+<hr>
+
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}" >
+    <input type="submit" value = "Delete!"/>
+</form>
 
 </body>
 </html>
