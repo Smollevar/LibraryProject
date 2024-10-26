@@ -27,6 +27,11 @@ public class IndexFinder {
         int i = 0;
         boolean found = false;
         do {
+            // Check lowest id from database and if it more than one - we delete first row from db.
+            if (indexes.get(i) > 1 && i == 0) {
+                id = 1;
+                found = true;
+            }
             if ((indexes.get(i + 1) - indexes.get(i)) > 1) {
                 id = (indexes.get(i) + 1);
                 found = true;
