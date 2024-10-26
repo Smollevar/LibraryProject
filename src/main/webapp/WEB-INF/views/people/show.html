@@ -10,15 +10,13 @@
     <a th:href="@{/people}"> return to home page</a>
 </p>
 
-<p th:text="${person.getPerson_id()}" > Value </p>
-<p th:text="${person.getBorn()}" > Value </p>
-<p th:text="${person.getFullName()}"> Value </p>
+<p th:text="${person.getPerson_id()}" > Value </p> <p th:text="${person.getBorn()}" > Value </p> <p th:text="${person.getFullName()}"> Value </p>
 
 <a th:href="@{/people/{id}/edit(id=${person.getPerson_id()})}"> Edit person </a>
 
 <hr>
 
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPerson_id()})}">
     <input type="submit" value="Delete"/>
 </form>
 
