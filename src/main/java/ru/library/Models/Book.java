@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class Book extends Library{
     private int id;
+    private int person_id;
     @NotEmpty(message = "Book must have title")
     private String title;
     @NotEmpty(message = "Book must have author")
@@ -18,11 +19,20 @@ public class Book extends Library{
 
     public Book() {}
 
-    public Book(String title, String author, int year, boolean isTaken) {
+    public Book(String title, String author, int year, boolean isTaken, int person_id) {
         this.title = title;
         this.author = author;
         this.year = year;
         this.isTaken = isTaken;
+        this.person_id = person_id;
+    }
+
+    public int getPerson_id() {
+        return person_id;
+    }
+
+    public void setPerson_id(int person_id) {
+        this.person_id = person_id;
     }
 
     public String getTitle() {
@@ -66,11 +76,4 @@ public class Book extends Library{
         isTaken = taken;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                '}';
-    }
 }

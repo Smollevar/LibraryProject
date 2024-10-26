@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class IndexFinder {
-    //todo edit this feature with wildcraft 13 line between List <?> entity.
     public static int indexFinder(List entity) {
         List <Person> listPerson = null;
         List <Book> listBook = null;
@@ -17,7 +16,7 @@ public class IndexFinder {
 
         if (entity.getFirst() instanceof Person) {
             listPerson = entity;
-            for (Person p : listPerson) indexes.add(p.getId());
+            for (Person p : listPerson) indexes.add(p.getPerson_id());
         } else if (entity.getFirst() instanceof Book) {
             listBook = entity;
             for (Book p : listBook) indexes.add(p.getId());

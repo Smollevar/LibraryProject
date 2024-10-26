@@ -10,9 +10,11 @@
 
     <label for="name">Enter name: </label>
     <input type="text" th:field="*{fullName}" id="name"/>
+    <p style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"/>
 
     <label for="age"> Enter age </label>
     <input type="text" th:field="*{age}" id="age"/>
+    <p style="color:red" th:if="${#fields.hasErrors('age')}" th:erros="*{age}"}/>
 
     <input type="submit" value="Update"/>
 

@@ -3,20 +3,21 @@ package ru.library.Models;
 import jakarta.validation.constraints.*;
 
 public class Person extends Library{
-    private int id;
+    private int person_id;
     @Pattern(regexp = "[ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+")
     @Size(min = 6, max = 70, message = "Имя должно быть в формате:Иванов Иван Иванович")
     private String fullName;
 
     @Min(value = 1940, message = "All people from DB born after 1940 year")
     @Max(value = 2025, message = "Dont fuck with DB")
-    private int age;
+    private int born;
 
     public Person() {}
 
-    public Person(String fullName, int age) {
+    public Person(int person_id ,String fullName, int born) {
+        this.person_id = person_id;
         this.fullName = fullName;
-        this.age = age;
+        this.born = born;
     }
 
     public String getFullName() {
@@ -27,24 +28,19 @@ public class Person extends Library{
         this.fullName = fullName;
     }
 
-    public int getAge() {
-        return age;
+    public int getBorn() {
+        return born;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBorn(int born) {
+        this.born = born;
     }
 
-    public int getId() {
-        return id;
+    public int getPerson_id() {
+        return person_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "id : " + id + " " + fullName;
+    public void setPerson_id(int id) {
+        this.person_id = id;
     }
 }
