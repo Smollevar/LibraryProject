@@ -25,6 +25,13 @@ public class BooksController {
         return "/books/index";
     }
 
+    @GetMapping("/{id}/changeFK")
+    public String changeFK(@ModelAttribute("id") int id, Model model) {
+        bookDAO.updateFK(id);
+        model.addAttribute("book", bookDAO.show(id));
+        return "redirect:/books/{id}";
+    }
+
     @GetMapping("{id}")
     public String show(Model model, @PathVariable("id") int id) {
         Book book = null;

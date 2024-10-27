@@ -13,6 +13,16 @@
 <p th:text="${book.getTitle()}"> Title </p>
 <p th:text="${book.getAuthor()}"> Author </p>
 <p th:text="${book.getYear()}"> Year </p>
+<!--<p th:if="${book.getPerson_id()} == 9999" -->
+<!--   th:text="Эта книга свободна"> </p>-->
+
+<p th:text="${book.getPerson_id()} + ', ' + ForeignKey" > </p>
+
+<p>
+    <a th:href="@{/books/{id}/changeFK(id=${book.getId()})}" > Change foreign key </a>
+</p>
+
+<p th:text="${book.getPerson_id() eq -1 ? 'Книга свободна' : 'Книга занята'}" ></p>
 
 <!--<a th:href="@{/books/{id}/edit(id=${book.getId()})}"> Edit book</a>-->
 

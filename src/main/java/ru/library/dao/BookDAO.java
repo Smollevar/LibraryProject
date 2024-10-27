@@ -24,7 +24,7 @@ public class BookDAO {
             List <Integer> ids = jdbcTemplate.queryForList("SELECT id FROM Book ORDER BY id", Integer.class);
             Collections.sort(ids);
             for(Integer id : ids) {
-                jdbcTemplate.update("UPDATE Book SET person_id=9999 WHERE id = ?", id);
+                jdbcTemplate.update("UPDATE Book SET person_id=-1 WHERE id = ?", id);
             }
             firstTime = false;
         }
@@ -47,4 +47,8 @@ public class BookDAO {
                 .stream().findAny().orElse(null);
     }
 
+    public void updateFK(int id) {
+        jdbcTemplate.update("UPDATE Book SET person_id = 4 WHERE id = ?", id);
+    }
+    // jdbcTemplate.update("UPDATE Book SET person_id=9999 WHERE id = ?", id);
 }
