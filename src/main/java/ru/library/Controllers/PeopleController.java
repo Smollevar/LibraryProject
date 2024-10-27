@@ -14,6 +14,7 @@ import ru.library.dao.PersonDAO;
 public class PeopleController {
 
     private PersonDAO personDAO;
+    private boolean firstTime = true;
 
     @Autowired
     public PeopleController(PersonDAO personDAO) {
@@ -22,7 +23,10 @@ public class PeopleController {
 
     @GetMapping()
     public String index(Model model) {
-        personDAO.createPlaceholderPerson();
+        if (firstTime) {
+            personDAO.createPlaceholderPerson();
+            firstTime = false;
+        }
         model.addAttribute("people", personDAO.index());
         return "/people/index";
     }

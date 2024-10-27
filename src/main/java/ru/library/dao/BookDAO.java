@@ -7,25 +7,35 @@ import ru.library.Models.Book;
 import ru.library.technical.IndexFinder;
 
 import java.sql.ResultSet;
+import java.util.Collections;
 import java.util.List;
 
 @Component
 public class BookDAO {
     private final JdbcTemplate jdbcTemplate;
+    private boolean firstTime = true;
 
     public BookDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<Book> index() {
+        if (firstTime) {
+            List <Integer> ids = jdbcTemplate.queryForList("SELECT id FROM Book ORDER BY id", Integer.class);
+            Collections.sort(ids);
+            for(Integer id : ids) {
+                jdbcTemplate.update("UPDATE Book SET person_id=9999 WHERE id = ?", id);
+            }
+            firstTime = false;
+        }
         return jdbcTemplate.query("SELECT id, person_id, title, author, year FROM Book ORDER BY id", new BeanPropertyRowMapper<>(Book.class)); // ORDER BY id
     }
 
     public void save(Book book) {
         List<Book> books = jdbcTemplate.query("SELECT * FROM Book", new BeanPropertyRowMapper<>(Book.class));
         int id = IndexFinder.indexFinder(books);
-        jdbcTemplate.update("INSERT INTO Book VALUES(?, ?, ?, ?)", id, book.getTitle(),
-                book.getAuthor(), book.getYear());
+        jdbcTemplate.update("INSERT INTO Book VALUES(?, ?, ?, ?, ?)"
+                ,id, 9999, book.getTitle(), book.getAuthor(), book.getYear());
     }
 
     public void delete(int id) {
