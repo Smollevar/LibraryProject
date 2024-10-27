@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.ls.LSOutput;
 import ru.library.Models.Person;
 import ru.library.dao.PersonDAO;
 
@@ -23,6 +22,7 @@ public class PeopleController {
 
     @GetMapping()
     public String index(Model model) {
+        personDAO.createPlaceholderPerson();
         model.addAttribute("people", personDAO.index());
         return "/people/index";
     }

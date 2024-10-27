@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.library.Models.Book;
 import ru.library.dao.BookDAO;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/books")
 public class BooksController {
@@ -18,9 +20,9 @@ public class BooksController {
     public BooksController(BookDAO bookDAO) {this.bookDAO = bookDAO;}
 
     @GetMapping()
-    public String books(Model model) {
+    public String index(Model model) {
         model.addAttribute("books", bookDAO.index());
-        return "books/index";
+        return "/books/index";
     }
 
     @GetMapping("{id}")
@@ -30,12 +32,12 @@ public class BooksController {
         if (book != null) {
             model.addAttribute("book", book);
         } else System.out.println("Book not found");
-        return "books/show";
+        return "/books/show";
     }
 
     @GetMapping("/new")
     public String newBook (@ModelAttribute("book") Book book) {
-        return "books/new";
+        return "/books/new";
     }
 
     @PostMapping()

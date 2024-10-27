@@ -2,20 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All library</title>
+    <title> All library </title>
 </head>
 <body>
 
-<div th:each="book : ${books}">
-    <a th:href="@{/books/{id}(id=${book.getId()})}"
-       th:text="${book.getId() + ', ' + book.getTitle()}" > book </a>
-</div>
-
+<p>
+    <a th:href="@{/books}"> Books page </a>
+</p>
 <hr/>
 
 <p>
     <a th:href="@{books/new}">Add book...</a>
 </p>
+<hr/>
+
+<div th:each="book : ${books}">
+    <a th:href="@{/books/{id}(id=${book.getId()})}"
+       th:text="${book.getId() + ', ' + book.getTitle() }" > book </a>
+</div>
+<!--+ ', ' + book.getPerson_id()-->
+<hr/>
+
 
 </body>
 </html>

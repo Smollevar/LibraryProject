@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.library.Models.Book;
 import ru.library.technical.IndexFinder;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 @Component
@@ -17,7 +18,7 @@ public class BookDAO {
     }
 
     public List<Book> index() {
-        return jdbcTemplate.query("SELECT * FROM Book ORDER BY id", new BeanPropertyRowMapper<>(Book.class));
+        return jdbcTemplate.query("SELECT id, person_id, title, author, year FROM Book ORDER BY id", new BeanPropertyRowMapper<>(Book.class)); // ORDER BY id
     }
 
     public void save(Book book) {

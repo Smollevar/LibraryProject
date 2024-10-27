@@ -15,25 +15,32 @@ public class Book extends Library{
     @Min(value = 1, message = "Set in rage from 1 to 2024")
     @Max(value = 2024, message = "Set in rage from 1 to 2024")
     private int year;
-    private boolean isTaken;
 
     public Book() {}
 
-    public Book(String title, String author, int year, boolean isTaken, int person_id) {
+    public Book(int id, int person_id, String title, String author, int year) {
+        this.id = id;
+        this.person_id = person_id;
         this.title = title;
         this.author = author;
         this.year = year;
-        this.isTaken = isTaken;
-        this.person_id = person_id;
     }
 
-    public int getPerson_id() {
-        return person_id;
+    public Book(int id, String title, String author, int year) {
+        this.id = id;
+//        this.person_id = person_id;
+        this.title = title;
+        this.author = author;
+        this.year = year;
     }
 
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
-    }
+//    public int getPerson_id() {
+//        return person_id;
+//    }
+//
+//    public void setPerson_id(int person_id) {
+//        this.person_id = person_id;
+//    }
 
     public String getTitle() {
         return title;
@@ -66,14 +73,6 @@ public class Book extends Library{
 
     public void setYear(@NotNull int year) {
         this.year = year;
-    }
-
-    public boolean isTaken() {
-        return isTaken;
-    }
-
-    public void setTaken(boolean taken) {
-        isTaken = taken;
     }
 
 }

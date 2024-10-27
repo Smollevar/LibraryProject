@@ -9,7 +9,7 @@ public class Person extends Library{
     private String fullName;
 
     @Min(value = 1940, message = "All people from DB born after 1940 year")
-    @Max(value = 2025, message = "Dont fuck with DB")
+    @Max(value = 2024, message = "Dont fuck with DB")
     private int born;
 
     public Person() {}

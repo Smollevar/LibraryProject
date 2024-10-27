@@ -1,19 +1,12 @@
 package ru.library.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.w3c.dom.ls.LSOutput;
 import ru.library.Models.Person;
 import ru.library.technical.IndexFinder;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.sql.ResultSet;
 import java.util.List;
 
 @Component
@@ -48,6 +41,13 @@ public class PersonDAO {
         int id = IndexFinder.indexFinder(people);
         jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?)", id, person.getFullName(), person.getBorn());
         return "/people";
+    }
+
+    public void createPlaceholderPerson() {
+        if (jdbcTemplate.query("SELECT * FROM Person WHERE person_id =? ", new Object[] {9999}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny().orElse(null) == null) {
+            jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?)", 9999, "Этошаблондля Деф Отображения", 2025);
+        }
     }
 
 }
