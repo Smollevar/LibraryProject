@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.library.Models.Book;
+import ru.library.Models.Person;
 import ru.library.technical.IndexFinder;
 
 import java.sql.ResultSet;
@@ -59,5 +60,11 @@ public class BookDAO {
     public void updateFK(int id) {
         jdbcTemplate.update("UPDATE Book SET person_id = 4 WHERE id = ?", id);
     }
+
+    public void assignBook(int id, Person person) {
+//        System.out.println("person id is: " + person.getFullName() + " Book id is : " + book.getId());
+        jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", person.getPerson_id(), id);
+    }
+
     // jdbcTemplate.update("UPDATE Book SET person_id=9999 WHERE id = ?", id);
 }

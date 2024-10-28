@@ -52,7 +52,7 @@ public class PersonDAO {
     public void createPlaceholderPerson() {
         if (jdbcTemplate.query("SELECT * FROM Person WHERE person_id =? ", new Object[] {-1}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null) == null) {
-            jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?)", -1, "Этошаблондля Деф Отображения", 2024);
+            jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?)", -1, "Книга Свободна", 2024);
         }
     }
 

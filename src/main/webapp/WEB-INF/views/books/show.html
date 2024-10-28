@@ -10,6 +10,7 @@
     <a th:href="@{/books}"> home page </a>
 </p>
 
+<p th:text="${book.getId()}"> id </p>
 <p th:text="${book.getTitle()}"> Title </p>
 <p th:text="${book.getAuthor()}"> Author </p>
 <p th:text="${book.getYear()}"> Year </p>
@@ -23,6 +24,16 @@
 </p>
 
 <p th:text="${book.getPerson_id() eq -1 ? 'Книга свободна' : 'Книга занята'}" ></p>
+
+<form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" >
+    <label for="person"> Выберите человека:</label>
+    <select th:object="${book}" th:field="*{person_id}" id="person">
+        <option th:each="person : ${people}" th:value="${person.getPerson_id()}"
+        th:text="${person.getFullName()}"></option>
+    </select>
+
+    <input type="submit" value="Назначить книгу"/>
+</form>
 
 <a th:href="@{/books/{id}/edit(id=${book.getId()})}"> Edit book</a>
 

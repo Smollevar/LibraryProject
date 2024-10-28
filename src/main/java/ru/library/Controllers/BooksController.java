@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.library.Models.Book;
+import ru.library.Models.Person;
 import ru.library.dao.BookDAO;
+import ru.library.dao.PersonDAO;
 import ru.library.util.BookValidator;
 
 import java.util.List;
@@ -17,10 +19,14 @@ import java.util.List;
 public class BooksController {
     private BookDAO bookDAO;
     private BookValidator bookValidator;
+    private PersonDAO personDAO;
 
     @Autowired
-    public BooksController(BookDAO bookDAO, BookValidator bookValidator) {this.bookDAO = bookDAO;
-    this.bookValidator = bookValidator;}
+    public BooksController(BookDAO bookDAO, BookValidator bookValidator, PersonDAO personDAO) {
+        this.bookDAO = bookDAO;
+        this.bookValidator = bookValidator;
+        this.personDAO = personDAO;
+    }
 
     @GetMapping()
     public String index(Model model) {
@@ -35,17 +41,24 @@ public class BooksController {
         return "redirect:/books/{id}";
     }
 
+    @PatchMapping("/{id}/assign")
+    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
+        bookDAO.assignBook(id, person);
+        return "redirect:/books";
+    }
+
     @GetMapping("{id}")
     public String show(Model model, @PathVariable("id") int id) {
         Book book = null;
         if (bookDAO.show(id).isPresent()) {
             book = bookDAO.show(id).get();
             model.addAttribute("book", book);
+            model.addAttribute("people", personDAO.index());
         } else System.out.println("Book not found");
         return "/books/show";
     }
 
-    @GetMapping("/{id}/edit")
+        @GetMapping("/{id}/edit")
         public String edit(@PathVariable("id") int id, Model model) {
         if (bookDAO.show(id).isPresent()) model.addAttribute("book", bookDAO.show(id).get());
         return "/books/edit";
