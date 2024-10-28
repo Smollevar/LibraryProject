@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.library.Models.Book;
 import ru.library.dao.BookDAO;
+import ru.library.util.BookValidator;
 
 import java.util.List;
 
@@ -15,9 +16,11 @@ import java.util.List;
 @RequestMapping("/books")
 public class BooksController {
     private BookDAO bookDAO;
+    private BookValidator bookValidator;
 
     @Autowired
-    public BooksController(BookDAO bookDAO) {this.bookDAO = bookDAO;}
+    public BooksController(BookDAO bookDAO, BookValidator bookValidator) {this.bookDAO = bookDAO;
+    this.bookValidator = bookValidator;}
 
     @GetMapping()
     public String index(Model model) {
@@ -35,11 +38,28 @@ public class BooksController {
     @GetMapping("{id}")
     public String show(Model model, @PathVariable("id") int id) {
         Book book = null;
-        book = bookDAO.show(id);
-        if (book != null) {
+        if (bookDAO.show(id).isPresent()) {
+            book = bookDAO.show(id).get();
             model.addAttribute("book", book);
         } else System.out.println("Book not found");
         return "/books/show";
+    }
+
+    @GetMapping("/{id}/edit")
+        public String edit(@PathVariable("id") int id, Model model) {
+        if (bookDAO.show(id).isPresent()) model.addAttribute("book", bookDAO.show(id).get());
+        return "/books/edit";
+    }
+
+    @PatchMapping("/{id}")
+        public String patch(@ModelAttribute("book") @Valid Book book,
+                            BindingResult br, @PathVariable("id") int id) {
+//        bookValidator.validate(book, br);
+        if (br.hasErrors()) {
+            return "/books/edit";
+        }
+        bookDAO.update(id, book);
+        return "redirect:/books";
     }
 
     @GetMapping("/new")
@@ -50,6 +70,7 @@ public class BooksController {
     @PostMapping()
     public String create(@ModelAttribute("book") @Valid Book book,
                           BindingResult br) {
+        bookValidator.validate(book, br);
         if (br.hasErrors()) return "books/new";
         bookDAO.save(book);
         return "redirect:/books";

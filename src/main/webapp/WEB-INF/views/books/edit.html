@@ -10,15 +10,15 @@
 
     <label for="title"> Book title </label>
     <input type="text" th:field="*{title}" id="title"/>
-    <p style="color:red" th:if="${#fields.hasErrors('title')}" th:erros="*{title}"}/>
+    <p style="color:red" th:if="${#fields.hasErrors('title')}" th:erros="*{title}"}> Error message </p>
     
     <label for="author"> Book author </label>
     <input type="text" th:field="*{author}" id="author"/>
-    <p style="color:red" th:if="${#fields.hasErrors('author')}" th:erros="*{author}"}/>
+    <p style="color:red" th:if="${#fields.hasErrors('author')}" th:erros="*{author}"}> Error Message </p>
     
     <label for="year"> Book year </label>
     <input type="text" th:field="*{year}" id="year"/>
-    <p style="color:red" th:if="${#fields.hasErrors('year')}" th:erros="*{year}"}/>
+    <p style="color:red" th:if="${#fields.hasErrors('year')}" th:erros="*{year}"}> Error message </p>
     
 <!--    <label for="isTaken"> Book isTaken? </label>-->
 <!--    <input type="boolean" th:field="*{isTaken}" id="isTaken"/>-->

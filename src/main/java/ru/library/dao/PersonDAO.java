@@ -8,6 +8,7 @@ import ru.library.technical.IndexFinder;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonDAO {
@@ -20,6 +21,11 @@ public class PersonDAO {
     public Person show(int id) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE person_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null);
+    }
+
+    public Optional<Person> show(String name, int born) {
+        return jdbcTemplate.query("SELECT * FROM Person WHERE fullName=? AND born = ?", new Object[]{name, born}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny();
     }
 
     public List<Person> index() {

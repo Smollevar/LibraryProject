@@ -24,20 +24,23 @@ public class IndexFinder {
         int id = 0;
 
         Collections.sort(indexes);
-        int i = 0;
+
+        // cause under zero index placeholder that have person_id - 1
+        int i = 1;
         boolean found = false;
         do {
+//            System.out.println(indexes.get(i));
             // Check lowest id from database and if it more than one - we delete first row from db.
             if (indexes.get(i) > 1 && i == 0) {
                 id = 1;
                 found = true;
             }
-            if ((indexes.get(i + 1) - indexes.get(i)) > 1) {
+            if (((indexes.get(i + 1) - indexes.get(i)) > 1) && !found) {
                 id = (indexes.get(i) + 1);
                 found = true;
             }
             else i++;
-            if (i == indexes.size() - 1) {
+            if ((i == indexes.size() - 1) && !found) {
                 id = indexes.get(i) + 1;
                 found = true;
             }

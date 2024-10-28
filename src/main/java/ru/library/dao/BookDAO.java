@@ -9,6 +9,7 @@ import ru.library.technical.IndexFinder;
 import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDAO {
@@ -23,9 +24,7 @@ public class BookDAO {
         if (firstTime) {
             List <Integer> ids = jdbcTemplate.queryForList("SELECT id FROM Book ORDER BY id", Integer.class);
             Collections.sort(ids);
-            for(Integer id : ids) {
-                jdbcTemplate.update("UPDATE Book SET person_id=-1 WHERE id = ?", id);
-            }
+            for(Integer id : ids) jdbcTemplate.update("UPDATE Book SET person_id=-1 WHERE id = ?", id);
             firstTime = false;
         }
         return jdbcTemplate.query("SELECT id, person_id, title, author, year FROM Book ORDER BY id", new BeanPropertyRowMapper<>(Book.class)); // ORDER BY id
@@ -35,16 +34,26 @@ public class BookDAO {
         List<Book> books = jdbcTemplate.query("SELECT * FROM Book", new BeanPropertyRowMapper<>(Book.class));
         int id = IndexFinder.indexFinder(books);
         jdbcTemplate.update("INSERT INTO Book VALUES(?, ?, ?, ?, ?)"
-                ,id, 9999, book.getTitle(), book.getAuthor(), book.getYear());
+                ,id, -1, book.getTitle(), book.getAuthor(), book.getYear());
     }
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Book WHERE id = ?", id);
     }
 
-    public Book show(int id) {
+    public Optional<Book> show(int id) {
         return jdbcTemplate.query("SELECT * FROM Book WHERE id = ?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
-                .stream().findAny().orElse(null);
+                .stream().findAny();
+    }
+
+    public Optional<Book> show(String title) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE title = ?", new Object[]{title}, new BeanPropertyRowMapper<>(Book.class))
+                .stream().findAny();
+    }
+
+    public void update(int id, Book book) {
+        jdbcTemplate.update("UPDATE Book SET title = ?, author = ?, year = ? WHERE id = ?"
+                , book.getTitle(), book.getAuthor(), book.getYear(), id);
     }
 
     public void updateFK(int id) {
