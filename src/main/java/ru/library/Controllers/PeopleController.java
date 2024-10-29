@@ -12,6 +12,7 @@ import ru.library.dao.BookDAO;
 import ru.library.dao.PersonDAO;
 import ru.library.util.PersonValidator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -86,7 +87,6 @@ public class PeopleController {
             if (person.getPerson_id() == books.get(i).getPerson_id()) counter++;
             i++;
         }
-        System.out.println(counter);
         if (person != null) {
             model.addAttribute("person", person);
             model.addAttribute("books", books);
@@ -97,7 +97,24 @@ public class PeopleController {
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
+        List<Book> books = bookDAO.index();
+        List<Integer> taken = new ArrayList<>(30);
+        int i = 0;
+        while(books.size() > i) {
+            if (books.get(i).getPerson_id() == id) {
+                taken.add(books.get(i).getId());
+            }
+            i++;
+        }
+
         personDAO.delete(id);
+
+        i = 0;
+        while(taken.size() > i) {
+            bookDAO.assignBook(taken.get(i));
+            i++;
+        }
+
         return "redirect:/people";
     }
 }

@@ -62,8 +62,11 @@ public class BookDAO {
     }
 
     public void assignBook(int id, Person person) {
-//        System.out.println("person id is: " + person.getFullName() + " Book id is : " + book.getId());
         jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", person.getPerson_id(), id);
+    }
+
+    public void assignBook(int bookId) {
+        jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", -1, bookId);
     }
 
     // jdbcTemplate.update("UPDATE Book SET person_id=9999 WHERE id = ?", id);

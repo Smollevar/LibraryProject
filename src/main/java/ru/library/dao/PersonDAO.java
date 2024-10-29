@@ -3,6 +3,7 @@ package ru.library.dao;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.library.Models.Book;
 import ru.library.Models.Person;
 import ru.library.technical.IndexFinder;
 
@@ -33,7 +34,7 @@ public class PersonDAO {
     }
 
    public void delete(int idForDelete) {
-        jdbcTemplate.update("DELETE FROM Person WHERE person_id=?", idForDelete);
+       jdbcTemplate.update("DELETE FROM Person WHERE person_id=?", idForDelete);
     }
 
     public void update(int id, Person updatedPerson) {
