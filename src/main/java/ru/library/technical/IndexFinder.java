@@ -1,7 +1,6 @@
 package ru.library.technical;
 
 import ru.library.Models.Book;
-import ru.library.Models.Library;
 import ru.library.Models.Person;
 
 import java.util.ArrayList;
@@ -21,30 +20,19 @@ public class IndexFinder {
             listBook = entity;
             for (Book p : listBook) indexes.add(p.getId());
         }
-        int id = 0;
 
         Collections.sort(indexes);
 
-        // cause under zero index placeholder that have person_id - 1
-        int i = 1;
+        int id = 0;
+        int current_index = 1;
         boolean found = false;
         do {
-//            System.out.println(indexes.get(i));
-            // Check lowest id from database and if it more than one - we delete first row from db.
-            if (indexes.get(i) > 1 && i == 0) {
-                id = 1;
+            if (current_index < indexes.get(id)) {
                 found = true;
-            }
-            if (((indexes.get(i + 1) - indexes.get(i)) > 1) && !found) {
-                id = (indexes.get(i) + 1);
-                found = true;
-            }
-            else i++;
-            if ((i == indexes.size() - 1) && !found) {
-                id = indexes.get(i) + 1;
-                found = true;
-            }
-        } while(i < indexes.size() && !found);
-        return id;
+            } else if (current_index == indexes.get(id)) current_index++;
+            else if (id == indexes.size() - 1) found = true;
+            id++;
+        } while(id < indexes.size() && !found);
+        return current_index;
     }
 }

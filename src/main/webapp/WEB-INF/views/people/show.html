@@ -11,10 +11,9 @@
 </p>
 
 <p th:text="${person.getFullName()} + ', ' + ${person.getBorn()}" > Value </p>
-<!-- ${person.getPerson_id()} + ', ' +  -->
 <hr>
 
-<form th:href="@{/people/{id}/edit(id=${person.getPerson_id()})}">
+<form th:action="@{/people/{id}/edit(id=${person.getPerson_id()})}">
     <input type="submit" value="Edit" />
 </form>
 
