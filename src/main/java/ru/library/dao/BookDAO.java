@@ -33,7 +33,8 @@ public class BookDAO {
 
     public void save(Book book) {
         List<Book> books = jdbcTemplate.query("SELECT * FROM Book", new BeanPropertyRowMapper<>(Book.class));
-        int id = IndexFinder.indexFinder(books);
+        int id = 1;
+        if (!books.isEmpty()) {id = IndexFinder.indexFinder(books);}
         jdbcTemplate.update("INSERT INTO Book VALUES(?, ?, ?, ?, ?)"
                 ,id, -1, book.getTitle(), book.getAuthor(), book.getYear());
     }
