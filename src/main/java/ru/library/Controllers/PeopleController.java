@@ -6,22 +6,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.library.Models.Book;
 import ru.library.Models.Person;
+import ru.library.dao.BookDAO;
 import ru.library.dao.PersonDAO;
 import ru.library.util.PersonValidator;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
 
+    private final BookDAO bookDAO;
     private PersonValidator personValidator;
     private PersonDAO personDAO;
     private boolean firstTime = true;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
+    public PeopleController(PersonDAO personDAO, PersonValidator personValidator, BookDAO bookDAO) {
         this.personDAO = personDAO;
         this.personValidator = personValidator;
+        this.bookDAO = bookDAO;
     }
 
     @GetMapping()
@@ -71,8 +77,20 @@ public class PeopleController {
     public String show(@PathVariable("id") int id, Model model) {
         Person person = null;
         person = personDAO.show(id);
+        // get list of books, transfer as second attribute,
+        // th:each on books, and if it equal with id of current user: print name of book.
+        List<Book> books = bookDAO.index();
+        int i = 0;
+        int counter = 0;
+        while(books.size() > i) {
+            if (person.getPerson_id() == books.get(i).getPerson_id()) counter++;
+            i++;
+        }
+        System.out.println(counter);
         if (person != null) {
             model.addAttribute("person", person);
+            model.addAttribute("books", books);
+            model.addAttribute("counter", counter);
         } else System.out.println("Person not found");
         return "/people/show";
     }

@@ -11,6 +11,17 @@
 </p>
 
 <p th:text="${person.getFullName()} + ', ' + ${person.getBorn()}" > Value </p>
+
+<!--<p th:if="${counter == 0}" th:text="Человек пока не взял ни одной книги" > Sample text </p>-->
+
+<hr/>
+
+<div th:if="${counter == 0}"> Человек без книги </div>
+<div th:if="${counter > 0}" > Книги: </div>
+<div th:each="book : ${books}">
+    <p th:if="${person.getPerson_id() == book.getPerson_id()}" ? th:text="${book.getTitle()}"> Title of book that was getting by person</p>
+</div>
+
 <hr>
 
 <form th:action="@{/people/{id}/edit(id=${person.getPerson_id()})}">

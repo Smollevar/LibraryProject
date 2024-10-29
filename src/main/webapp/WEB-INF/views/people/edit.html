@@ -6,7 +6,13 @@
 </head>
 <body>
 
+<p>
+    <a th:href="@{/people/{id}(id=${person.getPerson_id()})}" th:object="${person}"> Cancel </a>
+</p>
+
 <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getPerson_id()})}" th:object="${person}">
+
+
 
     <label for="name">Enter name: </label>
     <input type="text" th:field="*{fullName}" id="name"/>

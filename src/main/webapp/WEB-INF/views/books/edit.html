@@ -6,6 +6,10 @@
 </head>
 <body>
 
+<p>
+    <a th:href="@{/books/{id}(id=${book.getId()})}" th:object="${book}"> Cancel </a>
+</p>
+
 <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
 
     <label for="title"> Book title </label>
