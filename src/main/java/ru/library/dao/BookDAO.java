@@ -1,14 +1,9 @@
 package ru.library.dao;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.library.Models.Book;
 import ru.library.Models.Person;
-import ru.library.technical.IndexFinder;
 
-import java.sql.ResultSet;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

@@ -12,6 +12,7 @@ target/
 *.iml
 *.ipr
 src/main/resources/database.properties
+src/main/resources/hibernate.properties
 
 ### Eclipse ###
 .apt_generated

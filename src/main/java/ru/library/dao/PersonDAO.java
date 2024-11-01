@@ -2,15 +2,10 @@ package ru.library.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.library.Models.Book;
 import ru.library.Models.Person;
-import ru.library.technical.IndexFinder;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +24,7 @@ public class PersonDAO {
     public List<Person> index() {
 //        return jdbcTemplate.query("SELECT * FROM Person ORDER BY person_id", new BeanPropertyRowMapper<>(Person.class));
         Session session = sessionFactory.getCurrentSession();
-        List<Person> people = session.createQuery("select p from Person p").getResultList();
+        List<Person> people = session.createQuery("select p from Person p", Person.class).getResultList();
         // common hibernate code
 
         return people;

@@ -6,37 +6,34 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.library.Models.Book;
 import ru.library.Models.Person;
-import ru.library.dao.BookDAO;
 import ru.library.dao.PersonDAO;
-import ru.library.util.PersonValidator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final BookDAO bookDAO;
-    private PersonValidator personValidator;
+//    private final BookDAO bookDAO;
+//    private PersonValidator personValidator;
     private PersonDAO personDAO;
-    private boolean firstTime = true;
+//    private boolean firstTime = true;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO, PersonValidator personValidator, BookDAO bookDAO) {
+    public PeopleController(PersonDAO personDAO) { // , BookDAO bookDAO , PersonValidator personValidator
         this.personDAO = personDAO;
-        this.personValidator = personValidator;
-        this.bookDAO = bookDAO;
+//        this.personValidator = personValidator;
+//        this.bookDAO = bookDAO;
     }
 
     @GetMapping()
     public String index(Model model) {
-        if (firstTime) {
-            personDAO.createPlaceholderPerson();
-            firstTime = false;
-        }
+//        if (firstTime) {
+//            personDAO.createPlaceholderPerson();
+//            firstTime = false;
+//        }
+//        List<Person> people = personDAO.index();
         model.addAttribute("people", personDAO.index());
         return "/people/index";
     }

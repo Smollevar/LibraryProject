@@ -1,6 +1,5 @@
 package ru.library.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -23,11 +22,11 @@ public class PersonValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        Person person = (Person) target;
-        if (personDAO.show(person.getFullName(), person.getAge()).isPresent()) {
-            errors.rejectValue("fullName", "", "Duplicate name");
-            errors.rejectValue("born", "", "Duplicate year of born");
-        }
+//        Person person = (Person) target;
+//        if (personDAO.show(person.getFullName(), person.getAge()).isPresent()) {
+//            errors.rejectValue("fullname", "", "Duplicate name");
+//            errors.rejectValue("born", "", "Duplicate year of born");
+//        }
 
     }
 }

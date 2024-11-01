@@ -12,8 +12,6 @@ import ru.library.dao.BookDAO;
 import ru.library.dao.PersonDAO;
 import ru.library.util.BookValidator;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/books")
 public class BooksController {
