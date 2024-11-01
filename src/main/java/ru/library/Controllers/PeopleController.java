@@ -43,78 +43,84 @@ public class PeopleController {
 
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("person") Person person) {
-        return "/people/new";
+//        return "/people/new";
+        return null;
     }
 
     @GetMapping("{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", personDAO.show(id));
-        return "/people/edit";
+//        model.addAttribute("person", personDAO.show(id));
+//        return "/people/edit";
+        return null;
     }
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person,
                          BindingResult br, @PathVariable("id") int id) {
-        personValidator.validate(person, br);
-        if (br.hasErrors()) {
-            return "/people/edit";
-        }
-        personDAO.update(id, person);
-        return "redirect:/people";
+//        personValidator.validate(person, br);
+//        if (br.hasErrors()) {
+//            return "/people/edit";
+//        }
+//        personDAO.update(id, person);
+//        return "redirect:/people";
+        return null;
     }
 
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult br) {
-        personValidator.validate(person, br);
-        if (br.hasErrors()) {
-            return "people/new";
-        }
-        personDAO.save(person);
-        return "redirect:/people";
+//        personValidator.validate(person, br);
+//        if (br.hasErrors()) {
+//            return "people/new";
+//        }
+//        personDAO.save(person);
+//        return "redirect:/people";
+        return null;
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        Person person = null;
-        person = personDAO.show(id);
-        // get list of books, transfer as second attribute,
-        // th:each on books, and if it equal with id of current user: print name of book.
-        List<Book> books = bookDAO.index();
-        int i = 0;
-        int counter = 0;
-        while(books.size() > i) {
-            if (person.getPerson_id() == books.get(i).getPerson_id()) counter++;
-            i++;
-        }
-        if (person != null) {
-            model.addAttribute("person", person);
-            model.addAttribute("books", books);
-            model.addAttribute("counter", counter);
-        } else System.out.println("Person not found");
-        return "/people/show";
+//        Person person = null;
+//        person = personDAO.show(id);
+//        // get list of books, transfer as second attribute,
+//        // th:each on books, and if it equal with id of current user: print name of book.
+//        List<Book> books = bookDAO.index();
+//        int i = 0;
+//        int counter = 0;
+//        while(books.size() > i) {
+//            if (person.getPerson_id() == books.get(i).getPerson_id()) counter++;
+//            i++;
+//        }
+//        if (person != null) {
+//            model.addAttribute("person", person);
+//            model.addAttribute("books", books);
+//            model.addAttribute("counter", counter);
+//        } else System.out.println("Person not found");
+//        return "/people/show";
+        return null;
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        List<Book> books = bookDAO.index();
-        List<Integer> taken = new ArrayList<>(30);
-        int i = 0;
-        while(books.size() > i) {
-            if (books.get(i).getPerson_id() == id) {
-                taken.add(books.get(i).getId());
-            }
-            i++;
-        }
-
-        personDAO.delete(id);
-
-        i = 0;
-        while(taken.size() > i) {
-            bookDAO.assignBook(taken.get(i));
-            i++;
-        }
-
-        return "redirect:/people";
+//        List<Book> books = bookDAO.index();
+//        List<Integer> taken = new ArrayList<>(30);
+//        int i = 0;
+//        while(books.size() > i) {
+//            if (books.get(i).getPerson_id() == id) {
+//                taken.add(books.get(i).getId());
+//            }
+//            i++;
+//        }
+//
+//        personDAO.delete(id);
+//
+//        i = 0;
+//        while(taken.size() > i) {
+//            bookDAO.assignBook(taken.get(i));
+//            i++;
+//        }
+//
+//        return "redirect:/people";
+    return null;
     }
 }

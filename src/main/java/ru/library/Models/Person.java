@@ -1,23 +1,30 @@
 package ru.library.Models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+@Entity
+@Table(name = "Person")
 public class Person extends Library{
-    private int person_id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     @Pattern(regexp = "[ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+")
     @Size(min = 6, max = 70, message = "Имя должно быть в формате:Иванов Иван Иванович")
+    @Column(name = "fullname")
     private String fullName;
-
-    @Min(value = 1940, message = "All people from DB born after 1940 year")
-    @Max(value = 2024, message = "All people from DB born before 2025 year")
-    private int born;
+    
+    @Min(value = 1940, message = "All people from DB age after 1940 year")
+    @Max(value = 2024, message = "All people from DB age before 2025 year")
+    @Column(name = "age")
+    private int age;
 
     public Person() {}
 
-    public Person(int person_id ,String fullName, int born) {
-        this.person_id = person_id;
+    public Person(String fullName, int age) {
         this.fullName = fullName;
-        this.born = born;
+        this.age = age;
     }
 
     public String getFullName() {
@@ -28,19 +35,19 @@ public class Person extends Library{
         this.fullName = fullName;
     }
 
-    public int getBorn() {
-        return born;
+    public int getAge() {
+        return age;
     }
 
-    public void setBorn(int born) {
-        this.born = born;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public int getPerson_id() {
-        return person_id;
+    public int getId() {
+        return id;
     }
 
-    public void setPerson_id(int id) {
-        this.person_id = id;
+    public void setId(int id) {
+        this.id = id;
     }
 }

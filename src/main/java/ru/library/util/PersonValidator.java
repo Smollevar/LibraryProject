@@ -24,7 +24,7 @@ public class PersonValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
-        if (personDAO.show(person.getFullName(), person.getBorn()).isPresent()) {
+        if (personDAO.show(person.getFullName(), person.getAge()).isPresent()) {
             errors.rejectValue("fullName", "", "Duplicate name");
             errors.rejectValue("born", "", "Duplicate year of born");
         }
