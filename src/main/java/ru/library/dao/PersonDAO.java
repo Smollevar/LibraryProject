@@ -20,7 +20,7 @@ public class PersonDAO {
 //        this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Person> index() {
 //        return jdbcTemplate.query("SELECT * FROM Person ORDER BY person_id", new BeanPropertyRowMapper<>(Person.class));
         Session session = sessionFactory.getCurrentSession();

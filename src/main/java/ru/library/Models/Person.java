@@ -17,18 +17,18 @@ public class Person{ // extends Library
     @Column(name = "fullName")
     private String fullName;
 
-//    @Min(value = 1940, message = "All people from DB age after 1940 year")
-//    @Max(value = 2024, message = "All people from DB age before 2025 year")
-//    @Column(name = "age")
-//    private int age;
+    @Min(value = 1940, message = "All people from DB age after 1940 year")
+    @Max(value = 2024, message = "All people from DB age before 2025 year")
+    @Column(name = "age")
+    private int age;
 
     public Person() {}
 //
-    public Person(String fullName) { // , int age
+    public Person(String fullName, int age) { //
         this.fullName = fullName;
-//        this.age = age;
+        this.age = age;
     }
-//
+
     public String getFullName() {
         return fullName;
     }
@@ -36,14 +36,14 @@ public class Person{ // extends Library
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-//
-//    public int getAge() {
-//        return age;
-//    }
-//
-//    public void setAge(int age) {
-//        this.age = age;
-//    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public int getPerson_id() {
         return person_id;
