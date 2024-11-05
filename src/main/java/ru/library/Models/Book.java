@@ -1,37 +1,44 @@
 package ru.library.Models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public class Book extends Library{
+@Entity
+@Table(name = "Book")
+public class Book { // extends Library
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
-    private int person_id;
+
+    @Column(name = "title")
     @NotEmpty(message = "Book must have title")
     private String title;
+
+    @Column(name = "author")
     @NotEmpty(message = "Book must have author")
     private String author;
+
+    @Column(name = "year")
     @Min(value = 1, message = "Set in rage from 1 to 2024")
     @Max(value = 2024, message = "Set in rage from 1 to 2024")
     private int year;
 
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    private Person owner;
+
     public Book() {}
 
-    public Book(int id, int person_id, String title, String author, int year) {
+    public Book(int id, String title, String author, int year) {
         this.id = id;
-        this.person_id = person_id;
         this.title = title;
         this.author = author;
         this.year = year;
-    }
-
-    public int getPerson_id() {
-        return person_id;
-    }
-
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
     }
 
     public String getTitle() {
@@ -67,4 +74,21 @@ public class Book extends Library{
         this.year = year;
     }
 
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", year=" + year +
+                '}';
+    }
 }

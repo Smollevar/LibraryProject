@@ -2,6 +2,9 @@ package ru.library.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @Table(name = "person")
 @Entity
@@ -22,9 +25,13 @@ public class Person{ // extends Library
     @Column(name = "age")
     private int age;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
     public Person() {}
-//
-    public Person(String fullName, int age) { //
+
+    public Person(int person_id, String fullName, int age) {
+        this.person_id = person_id;
         this.fullName = fullName;
         this.age = age;
     }
@@ -53,14 +60,20 @@ public class Person{ // extends Library
         this.person_id = person_id;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Person{" +
-//                "id=" + person_id
-////                +
-////                ", fullName='" + fullName + '\'' +
-////                ", age=" + age +
-////                '}'
-//                ;
-//    }
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "person_id=" + person_id +
+                ", fullName='" + fullName + '\'' +
+                ", age=" + age +
+                '}';
+    }
 }

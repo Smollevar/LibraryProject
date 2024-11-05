@@ -35,7 +35,7 @@ import java.util.Properties;
 @EnableWebMvc
 @PropertySource("classpath:hibernate.properties")
 @EnableTransactionManagement()
-@PropertySource("classpath:database.properties")
+//@PropertySource("classpath:database.properties")
 public class SpringConfig implements WebMvcConfigurer {
     private final Environment env;
     private final ApplicationContext applicationContext;
@@ -57,10 +57,10 @@ public class SpringConfig implements WebMvcConfigurer {
         return dataSource;
     }
 
-//    @Bean
-//    public JdbcTemplate jdbcTemplate() {
-//        return new JdbcTemplate(dataSource());
-//    }
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
+    }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
@@ -87,8 +87,6 @@ public class SpringConfig implements WebMvcConfigurer {
         registry.viewResolver(resolver);
     }
 
-    // Hibernate cfg
-
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
@@ -114,16 +112,5 @@ public class SpringConfig implements WebMvcConfigurer {
 
         return transactionManager;
     }
-
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
-//        converters.add(stringHttpMessageConverter);
-//    }
-//
-//    @Override
-//    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-//        configurer.favorPathExtension(false);
-//    }
 
 }

@@ -22,11 +22,11 @@ public class PersonValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-//        Person person = (Person) target;
-//        if (personDAO.show(person.getFullName(), person.getAge()).isPresent()) {
-//            errors.rejectValue("fullname", "", "Duplicate name");
-//            errors.rejectValue("born", "", "Duplicate year of born");
-//        }
-
+        Person person = (Person) target;
+        // while create or edit person if we detect same name and age - error.
+        if (personDAO.show(person.getFullName(), person.getAge()).isPresent()) { // .isPresent()
+            errors.rejectValue("fullName", "", "Duplicate name");
+            errors.rejectValue("age", "", "Duplicate year of age");
+        }
     }
 }
