@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import ru.library.Models.Book;
 import ru.library.Models.Person;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,12 +79,8 @@ public class BookDAO {
     @Transactional
     public void update(int id, Book book) {
         Session session = sessionFactory.getCurrentSession();
-        Person person = session.get(Person.class, id);
-        person.getBooks().add(book);
-        session.saveOrUpdate(person);
+        book.setOwner(session.get(Person.class, id));
         session.update(book);
-//        jdbcTemplate.update("UPDATE Book SET title = ?, author = ?, year = ? WHERE id = ?"
-//                , book.getTitle(), book.getAuthor(), book.getYear(), id);
     }
 
     @Transactional
@@ -93,6 +90,17 @@ public class BookDAO {
 
     @Transactional
     public void assignBook(int id, Person person) {
+        Session session = sessionFactory.getCurrentSession();
+//        System.out.println(id);
+//        System.out.println(person);
+        if (person.getBooks() == null)
+            person.setBooks(new ArrayList<>());
+        person.getBooks().add(session.get(Book.class, id));
+        session.saveOrUpdate(person);
+        Book book = session.get(Book.class, id);
+        book.setOwner(person);
+        session.save(book);
+
 //        jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", person.getPerson_id(), id);
     }
 

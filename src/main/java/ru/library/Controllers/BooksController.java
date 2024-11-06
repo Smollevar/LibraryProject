@@ -12,12 +12,15 @@ import ru.library.dao.BookDAO;
 import ru.library.dao.PersonDAO;
 import ru.library.util.BookValidator;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/books")
 public class BooksController {
     private BookDAO bookDAO;
     private BookValidator bookValidator;
     private PersonDAO personDAO;
+    private int local; // dirt trick that may be cause of problem...
 
     @Autowired
     public BooksController(BookDAO bookDAO, BookValidator bookValidator, PersonDAO personDAO) {
@@ -40,8 +43,9 @@ public class BooksController {
     }
 
     @PatchMapping("/{id}/assign")
-    public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
-        bookDAO.assignBook(id, person);
+    public String assign(@ModelAttribute("person") Person person, @PathVariable("id") int id) {
+                System.out.println("44 line person id: " + person.getPerson_id());
+//        bookDAO.assignBook(id, person);
         return "redirect:/books";
     }
 
@@ -53,14 +57,17 @@ public class BooksController {
 //            model.addAttribute("book", book);
 //            model.addAttribute("people", personDAO.index());
 //        } else System.out.println("Book not found");
+        List<Person> people = personDAO.index();
+        System.out.println(people);
         model.addAttribute("book", book);
-        model.addAttribute("people", personDAO.index());
+        model.addAttribute("people", people);
         return "/books/show";
     }
 
         @GetMapping("/{id}/edit")
         public String edit(@PathVariable("id") int id, Model model) {
-//        if (bookDAO.show(id).isPresent()) model.addAttribute("book", bookDAO.show(id).get());
+            model.addAttribute("book", bookDAO.show(id));
+            local = bookDAO.show(id).getOwner().getPerson_id();
         return "/books/edit";
     }
 
@@ -71,7 +78,7 @@ public class BooksController {
         if (br.hasErrors()) {
             return "/books/edit";
         }
-        bookDAO.update(id, book);
+        bookDAO.update(local, book);
         return "redirect:/books";
     }
 

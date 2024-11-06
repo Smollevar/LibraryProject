@@ -28,14 +28,26 @@
 <!-- ? 'Книга свободна' : 'Книга занята'-->
 
 <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" >
-    <label for="person"> Выберите человека:</label>
-    <select th:object="${book}" th:field="*{owner}" id="person">
+
+    <label for="book"> Выберите человека:</label>
+
+    <select th:object="${book}" th:field="*{owner}" id="book">
         <option th:each="person : ${people}" th:value="${person.getPerson_id()}"
         th:text="${person.getFullName()}"></option>
     </select>
 
     <input type="submit" value="Назначить книгу"/>
 </form>
+
+<!--<form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" >-->
+<!--    <label for="person"> Выберите человека:</label>-->
+<!--    <select th:object="${book}" th:field="*{person_id}" id="person">-->
+<!--        <option th:each="person : ${people}" th:value="${person.getPerson_id()}"-->
+<!--                th:text="${person.getFullName()}"></option>-->
+<!--    </select>-->
+
+<!--    <input type="submit" value="Назначить книгу"/>-->
+<!--</form>-->
 
 <!--<a th:href="@{/books/{id}/edit(id=${book.getId()})}"> Edit book</a>-->
 
