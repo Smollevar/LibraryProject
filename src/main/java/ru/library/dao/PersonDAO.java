@@ -63,7 +63,16 @@ public class PersonDAO {
     @Transactional
     public void delete(int idForDelete) {
         Session session = sessionFactory.getCurrentSession();
-        session.remove(session.get(Person.class, idForDelete));
+        Person personForDelete = session.get(Person.class, idForDelete);
+        Person defaultPerson = session.get(Person.class, -1);
+        List<Book> books = personForDelete.getBooks();
+        for (Book book : books) {
+            book.setOwner(defaultPerson);
+            session.save(book);
+        }
+        personForDelete.getBooks().clear();
+        session.save(personForDelete);
+        session.remove(personForDelete);
     }
 
     @Transactional

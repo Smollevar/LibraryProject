@@ -25,7 +25,7 @@ public class Person {
     @Column(name = "age")
     private int age;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner") // , cascade = CascadeType.ALL
     private List<Book> books;
 
     public Person() {}
