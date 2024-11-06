@@ -47,25 +47,27 @@ public class BooksController {
 
     @GetMapping("{id}")
     public String show(Model model, @PathVariable("id") int id) {
-        Book book = null;
-        if (bookDAO.show(id).isPresent()) {
-            book = bookDAO.show(id).get();
-            model.addAttribute("book", book);
-            model.addAttribute("people", personDAO.index());
-        } else System.out.println("Book not found");
+        Book book = bookDAO.show(id);
+//        if (bookDAO.show(id).isPresent()) {
+//            book = bookDAO.show(id).get();
+//            model.addAttribute("book", book);
+//            model.addAttribute("people", personDAO.index());
+//        } else System.out.println("Book not found");
+        model.addAttribute("book", book);
+        model.addAttribute("people", personDAO.index());
         return "/books/show";
     }
 
         @GetMapping("/{id}/edit")
         public String edit(@PathVariable("id") int id, Model model) {
-        if (bookDAO.show(id).isPresent()) model.addAttribute("book", bookDAO.show(id).get());
+//        if (bookDAO.show(id).isPresent()) model.addAttribute("book", bookDAO.show(id).get());
         return "/books/edit";
     }
 
     @PatchMapping("/{id}")
         public String patch(@ModelAttribute("book") @Valid Book book,
                             BindingResult br, @PathVariable("id") int id) {
-//        bookValidator.validate(book, br);
+        bookValidator.validate(book, br);
         if (br.hasErrors()) {
             return "/books/edit";
         }
@@ -83,6 +85,7 @@ public class BooksController {
                           BindingResult br) {
         bookValidator.validate(book, br);
         if (br.hasErrors()) return "books/new";
+        System.out.println(book);
         bookDAO.save(book);
         return "redirect:/books";
     }

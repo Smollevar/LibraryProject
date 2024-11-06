@@ -21,7 +21,7 @@ public class PeopleController {
     private final BookDAO bookDAO;
     private PersonValidator personValidator;
     private PersonDAO personDAO;
-//    private boolean firstTime = true;
+    private boolean firstTime = true;
 
     @Autowired
     public PeopleController(PersonDAO personDAO, BookDAO bookDAO , PersonValidator personValidator) { //
@@ -32,11 +32,11 @@ public class PeopleController {
 
     @GetMapping()
     public String index(Model model) {
-//        if (firstTime) {
-//            personDAO.createPlaceholderPerson();
-//            firstTime = false;
-//        }
-        List<Person> people = personDAO.index();
+        if (firstTime) {
+            personDAO.createPlaceholderPerson();
+            firstTime = false;
+        }
+//        List<Person> people = personDAO.index();
         model.addAttribute("people", personDAO.index());
         return "/people/index";
     }
@@ -68,10 +68,12 @@ public class PeopleController {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person,
-                         BindingResult br, @PathVariable("id") int id) {
+                         BindingResult br, @PathVariable("id") int id,
+                         Model model) {
         personValidator.validate(person, br);
+        person.setPerson_id(id);
         if (br.hasErrors()) {
-            person.setPerson_id(id);
+            model.addAttribute("person", person);
             return "/people/edit";
         }
         personDAO.update(person);
@@ -82,49 +84,18 @@ public class PeopleController {
     public String show(@PathVariable("id") int id, Model model) {
         Person person = null;
         person = personDAO.show(id);
-//        System.out.println(person.getBooks() == null);
-//        for(Book book : person.getBooks()) {
-//            System.out.println(book);
+        model.addAttribute("person", person);
+//        List<Book> book = person.getBooks();
+//        for(Book b : book) {
+//            System.out.println(b.getTitle());
 //        }
-        // get list of books, transfer as second attribute,
-        // th:each on books, and if it equal with id of current user: print name of book.
-//        List<Book> books = bookDAO.index();
-//        int i = 0;
-//        int counter = 0;
-//        while(books.size() > i) {
-//            if (person.getPerson_id() == books.get(i).getPerson_id()) counter++;
-//            i++;
-//        }
-        if (person != null) {
-            model.addAttribute("person", person);
-//            model.addAttribute("books", books);
-//            model.addAttribute("counter", counter);
-        } else System.out.println("Person not found");
+        model.addAttribute("books", bookDAO.index());
         return "/people/show";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
         personDAO.delete(id);
-//        List<Book> books = bookDAO.index();
-//        List<Integer> taken = new ArrayList<>(30);
-//        int i = 0;
-//        while(books.size() > i) {
-//            if (books.get(i).getPerson_id() == id) {
-//                taken.add(books.get(i).getId());
-//            }
-//            i++;
-//        }
-//
-//        personDAO.delete(id);
-//
-//        i = 0;
-//        while(taken.size() > i) {
-//            bookDAO.assignBook(taken.get(i));
-//            i++;
-//        }
-//
         return "redirect:/people";
-//    return null;
     }
 }

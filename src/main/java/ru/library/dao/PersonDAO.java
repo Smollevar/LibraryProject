@@ -4,11 +4,14 @@ import jakarta.persistence.Tuple;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.library.Models.Book;
 import ru.library.Models.Person;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,34 +20,44 @@ public class PersonDAO {
 
     private SessionFactory sessionFactory;
     private JdbcTemplate jdbcTemplate;
+    private boolean first_time;
 
     public PersonDAO() {}
 
     @Autowired
     public PersonDAO(SessionFactory sessionFactory, JdbcTemplate jdbcTemplate) {
         this.sessionFactory = sessionFactory;
-//        this.jdbcTemplate = jdbcTemplate;
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Transactional
     public List<Person> index() {
         Session session = sessionFactory.getCurrentSession();
+//        if (!first_time) {
+//            List<Person> people = session.createQuery("select p from Person p", Person.class).getResultList();
+//            for(Person p : people) {
+//                p.setBooks(new ArrayList<>());
+//                session.save(p);
+//            }
+//            first_time = true;
+//        }
         return session.createQuery("select p from Person p", Person.class).getResultList();
     }
 
     @Transactional
     public Person show(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.get(Person.class, id);
+        Person person = session.get(Person.class, id);
+        System.out.println(person.getBooks());
+        return person;
 //        return jdbcTemplate.query("SELECT * FROM Person WHERE person_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
 //                .stream().findAny().orElse(null);
     }
 
     @Transactional // todo continue later with adding new person and edit...
     public Optional<Person> show(String name, int born) { // Person
-        Session session = sessionFactory.getCurrentSession();
-        return Optional.ofNullable(session.createQuery());
+        return jdbcTemplate.query("SELECT * FROM Person WHERE fullName = ? and age = ?", new Object[]{name, born}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny();
     }
 
     @Transactional
@@ -73,10 +86,10 @@ public class PersonDAO {
 
     @Transactional
     public void createPlaceholderPerson() {
-//        if (jdbcTemplate.query("SELECT * FROM Person WHERE person_id =? ", new Object[] {-1}, new BeanPropertyRowMapper<>(Person.class))
-//                .stream().findAny().orElse(null) == null) {
-//            jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?)", -1, "Книга Свободна", 2024);
+        if (jdbcTemplate.query("SELECT * FROM Person WHERE person_id =? ", new Object[] {-1}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny().orElse(null) == null) {
+            jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?)", -1, "Книга Свободна", 2024);
         }
-    }
+}
 
-//}
+}

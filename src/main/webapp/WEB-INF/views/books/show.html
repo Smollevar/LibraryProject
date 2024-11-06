@@ -23,11 +23,13 @@
 <!--    <a th:href="@{/books/{id}/changeFK(id=${book.getId()})}" > Change foreign key </a>-->
 <!--</p>-->
 
-<p th:text="${book.getPerson_id() eq -1 ? 'Книга свободна' : 'Книга занята'}" ></p>
+<p th:if="${book.getOwner().getPerson_id() eq -1}"> Книга свободна </p>
+
+<!-- ? 'Книга свободна' : 'Книга занята'-->
 
 <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" >
     <label for="person"> Выберите человека:</label>
-    <select th:object="${book}" th:field="*{person_id}" id="person">
+    <select th:object="${book}" th:field="*{owner}" id="person">
         <option th:each="person : ${people}" th:value="${person.getPerson_id()}"
         th:text="${person.getFullName()}"></option>
     </select>
