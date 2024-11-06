@@ -8,7 +8,7 @@ import java.util.List;
 
 @Table(name = "person")
 @Entity
-public class Person{ // extends Library
+public class Person {
 
     @Id
     @Column(name = "person_id")

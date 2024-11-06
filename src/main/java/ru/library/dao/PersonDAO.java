@@ -77,6 +77,8 @@ public class PersonDAO {
 
     @Transactional
     public String save(Person person) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(person);
 //        List <Person> people = jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
 //        int id = IndexFinder.indexFinder(people);
 //        jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?)", id, person.getFullName(), person.getBorn());
