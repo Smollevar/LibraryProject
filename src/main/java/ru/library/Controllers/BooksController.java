@@ -21,6 +21,7 @@ public class BooksController {
     private BookValidator bookValidator;
     private PersonDAO personDAO;
     private int local; // dirt trick that may be cause of problem...
+    private int tmp_year;
 
     @Autowired
     public BooksController(BookDAO bookDAO, BookValidator bookValidator, PersonDAO personDAO) {
@@ -43,9 +44,12 @@ public class BooksController {
     }
 
     @PatchMapping("/{id}/assign")
-    public String assign(@ModelAttribute("person") Person person, @PathVariable("id") int id) {
-                System.out.println("44 line person id: " + person.getPerson_id());
-//        bookDAO.assignBook(id, person);
+    public String assign(@ModelAttribute("person") Book book, @PathVariable("id") int id) {
+//        System.out.println(book.getOwner());
+//        System.out.println(book.getOwner().getPerson_id());
+//        System.out.println("id is " + id);
+        bookDAO.assignBook(id, book.getOwner().getPerson_id());
+
         return "redirect:/books";
     }
 
@@ -59,15 +63,16 @@ public class BooksController {
 //        } else System.out.println("Book not found");
         List<Person> people = personDAO.index();
         System.out.println(people);
+        tmp_year = book.getId();
         model.addAttribute("book", book);
         model.addAttribute("people", people);
         return "/books/show";
     }
 
-        @GetMapping("/{id}/edit")
-        public String edit(@PathVariable("id") int id, Model model) {
-            model.addAttribute("book", bookDAO.show(id));
-            local = bookDAO.show(id).getOwner().getPerson_id();
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable("id") int id, Model model) {
+        model.addAttribute("book", bookDAO.show(id));
+        local = bookDAO.show(id).getOwner().getPerson_id();
         return "/books/edit";
     }
 
@@ -102,6 +107,5 @@ public class BooksController {
         bookDAO.delete(id);
         return "redirect:/books";
     }
-
 
 }

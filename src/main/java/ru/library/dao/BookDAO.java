@@ -89,17 +89,40 @@ public class BookDAO {
     }
 
     @Transactional
-    public void assignBook(int id, Person person) {
+    public void assignBook(int id, int personId) {
         Session session = sessionFactory.getCurrentSession();
 //        System.out.println(id);
 //        System.out.println(person);
-        if (person.getBooks() == null)
+
+        /*
+        1) set to person by list with specified id - book by id.
+        2) set to book person owner.
+        3) save both to db.
+         */
+
+        Person person = session.get(Person.class, personId);
+        if(person.getBooks() == null)
             person.setBooks(new ArrayList<>());
-        person.getBooks().add(session.get(Book.class, id));
-        session.saveOrUpdate(person);
         Book book = session.get(Book.class, id);
+
+        person.getBooks().add(book);
         book.setOwner(person);
-        session.save(book);
+        session.saveOrUpdate(book);
+        session.saveOrUpdate(person);
+
+
+
+
+
+
+//
+//        if (person.getBooks() == null)
+//            person.setBooks(new ArrayList<>());
+//        person.getBooks().add(session.get(Book.class, id));
+//        session.saveOrUpdate(person);
+//        Book book = session.get(Book.class, id);
+//        book.setOwner(person);
+//        session.save(book);
 
 //        jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", person.getPerson_id(), id);
     }
