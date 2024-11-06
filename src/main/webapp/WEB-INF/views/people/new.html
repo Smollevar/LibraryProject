@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<p >
-    <a th:href="@{/people}"> home page </a>
-</p>
+<form th:action="@{/people}" >
+    <input type="submit" value="Cancel"/>
+</form>
 
 <form th:method="POST" th:action="@{/people}" th:object="${person}">
 

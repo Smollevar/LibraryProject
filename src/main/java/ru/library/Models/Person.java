@@ -2,7 +2,6 @@ package ru.library.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class Person {
     @Column(name = "age")
     private int age;
 
-    @OneToMany(mappedBy = "owner") // , cascade = CascadeType.ALL
+    @OneToMany(mappedBy = "owner")
     private List<Book> books;
 
     public Person() {}

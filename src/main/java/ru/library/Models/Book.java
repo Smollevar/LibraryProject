@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Book")
-public class Book { // extends Library
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

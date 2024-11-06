@@ -36,7 +36,6 @@ public class BookDAO {
         Session session = sessionFactory.getCurrentSession();
         List <Book> books = session.createQuery("SELECT b FROM Book b ORDER BY id", Book.class).getResultList();
         if (firstTime) {
-//            Person placeHolderPerson = session.get(Person.class, -1);
             for(Book book : books) {
                 book.setOwner(session.get(Person.class, -1));
             }
@@ -56,22 +55,16 @@ public class BookDAO {
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(session.get(Book.class, id));
-//        jdbcTemplate.update("DELETE FROM Book WHERE id = ?", id);
     }
 
     @Transactional
     public Book show(int id) {
-//        return jdbcTemplate.query("SELECT * FROM Book WHERE id = ?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
-//                .stream().findAny();
         Session session = sessionFactory.getCurrentSession();
         return session.get(Book.class, id);
     }
 
     @Transactional
     public Optional<Book> show(String title) {
-//        return jdbcTemplate.query("SELECT * FROM Book WHERE title = ?", new Object[]{title}, new BeanPropertyRowMapper<>(Book.class))
-//                .stream().findAny();
-//        Session session = sessionFactory.getCurrentSession();
         return jdbcTemplate.query("SELECT * FROM Book where title = ?", new Object[] {title}, new BeanPropertyRowMapper<Book>(Book.class))
                 .stream().findAny();
     }
@@ -84,27 +77,12 @@ public class BookDAO {
     }
 
     @Transactional
-    public void updateFK(int id) {
-//        jdbcTemplate.update("UPDATE Book SET person_id = 4 WHERE id = ?", id);
-    }
-
-    @Transactional
     public void assignBook(int id, int personId) {
         Session session = sessionFactory.getCurrentSession();
-//        System.out.println(id);
-//        System.out.println(person);
-
-        /*
-        1) set to person by list with specified id - book by id.
-        2) set to book person owner.
-        3) save both to db.
-         */
-
         Person person = session.get(Person.class, personId);
         if(person.getBooks() == null)
             person.setBooks(new ArrayList<>());
         Book book = session.get(Book.class, id);
-
         person.getBooks().add(book);
         book.setOwner(person);
         session.saveOrUpdate(book);
@@ -127,10 +105,4 @@ public class BookDAO {
 //        jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", person.getPerson_id(), id);
     }
 
-    @Transactional
-    public void assignBook(int bookId) {
-//        jdbcTemplate.update("UPDATE Book SET person_id = ? WHERE id = ?", -1, bookId);
-    }
-
-    // jdbcTemplate.update("UPDATE Book SET person_id=9999 WHERE id = ?", id);
 }

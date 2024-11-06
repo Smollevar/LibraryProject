@@ -6,28 +6,23 @@
 </head>
 <body>
 
-<p>
-    <a th:href="@{/books/{id}(id=${book.getId()})}" th:object="${book}"> Cancel </a>
-</p>
+<form th:action="@{/books/{id}(id=${book.getId()})}">
+    <input type="submit" value="Cancel"/>
+</form>
 
 <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
 
     <label for="title"> Book title </label>
     <input type="text" th:field="*{title}" id="title"/>
-    <p style="color:red" th:if="${#fields.hasErrors('title')}" th:erros="*{title}"}> Error message </p>
+    <p style="color:red" th:if="${#fields.hasErrors('title')}" th:erros="*{title}"}> Title must being edited </p>
     
     <label for="author"> Book author </label>
     <input type="text" th:field="*{author}" id="author"/>
-    <p style="color:red" th:if="${#fields.hasErrors('author')}" th:erros="*{author}"}> Error Message </p>
+    <p style="color:red" th:if="${#fields.hasErrors('author')}" th:erros="*{author}"}> Author must being edited </p>
     
     <label for="year"> Book year </label>
     <input type="text" th:field="*{year}" id="year"/>
-    <p style="color:red" th:if="${#fields.hasErrors('year')}" th:erros="*{year}"}> Error message </p>
-    
-<!--    <label for="isTaken"> Book isTaken? </label>-->
-<!--    <input type="boolean" th:field="*{isTaken}" id="isTaken"/>-->
-
-
+    <p style="color:red" th:if="${#fields.hasErrors('year')}" th:erros="*{year}"}> Year in range from 1 to 2024 </p>
 
     <input type="submit" value="Update"/>
 

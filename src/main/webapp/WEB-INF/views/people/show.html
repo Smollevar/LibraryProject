@@ -6,21 +6,18 @@
 </head>
 <body>
 
-<p>
-    <a th:href="@{/people}"> return to home page</a>
-</p>
+<form th:action="@{/people}" >
+    <input type="submit" value="Home page"/>
+</form>
 
 <p th:text="${person.getFullName()} + ', ' + ${person.getAge()}" > Value </p>
 
 <hr/>
 
-<!--<div th:text="${person.getBooks().isEmpty() == true}"> Человек без книг </div>-->
-
 <div th:if="${person.getBooks().isEmpty() == true}">
     <div> Человек без книги </div>
 </div>
 
-<!-- todo this will being List<Book> with key books...-->
 <div th:if="${person.getBooks().isEmpty() != true}">
     <div th:each="book : ${books}">
         <p th:if="${person.getPerson_id() == book.getOwner().getPerson_id()}" ? th:text="${book.getTitle()}"> Title of book that was getting by person</p>

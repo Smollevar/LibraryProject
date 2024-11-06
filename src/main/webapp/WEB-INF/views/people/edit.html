@@ -6,6 +6,10 @@
 </head>
 <body>
 
+<form th:action="@{/people/{id}(id=${person.getPerson_id()})}" th:object="${person}" >
+    <input type="submit" value="Cancel"/>
+</form>
+
 <p>
     <a th:href="@{/people/{id}(id=${person.getPerson_id()})}" th:object="${person}"> Cancel </a>
 </p>
@@ -18,7 +22,7 @@
 
     <label for="age"> Enter age </label>
     <input type="text" th:field="*{age}" id="age"/>
-    <p style="color:red" th:if="${#fields.hasErrors('age')}" th:erros="*{age}"> Error </p>
+    <p style="color:red" th:if="${#fields.hasErrors('age')}" th:erros="*{age}"> Age must being in range from 1940 until 2024 </p>
 
     <input type="submit" value="Update"/>
 

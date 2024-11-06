@@ -6,6 +6,10 @@
 </head>
 <body>
 
+<form th:action="@{/books}" >
+    <input type="submit" value="Cancel"/>
+</form>
+
 <form th:method="POST" th:action="@{/books}" th:object="${book}">
 
     <label for="title"> Enter book name</label>

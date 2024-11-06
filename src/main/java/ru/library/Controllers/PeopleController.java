@@ -6,13 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.library.Models.Book;
 import ru.library.Models.Person;
 import ru.library.dao.BookDAO;
 import ru.library.dao.PersonDAO;
 import ru.library.util.PersonValidator;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/people")
@@ -36,7 +33,6 @@ public class PeopleController {
             personDAO.createPlaceholderPerson();
             firstTime = false;
         }
-//        List<Person> people = personDAO.index();
         model.addAttribute("people", personDAO.index());
         return "/people/index";
     }
@@ -85,10 +81,6 @@ public class PeopleController {
         Person person = null;
         person = personDAO.show(id);
         model.addAttribute("person", person);
-//        List<Book> book = person.getBooks();
-//        for(Book b : book) {
-//            System.out.println(b.getTitle());
-//        }
         model.addAttribute("books", bookDAO.index());
         return "/people/show";
     }

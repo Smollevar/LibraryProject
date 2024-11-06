@@ -6,9 +6,10 @@
 </head>
 <body>
 
-<p>
-    <a th:href="@{/people}"> People page </a>
-</p>
+<form th:action="@{/people}" >
+    <input type="submit" value="People page"/>
+</form>
+
 <hr/>
 
 <p>
@@ -20,7 +21,7 @@
     <a th:href="@{/books/{id}(id=${book.getId()})}"
        th:text="${book.getId() + ', ' + book.getTitle()}" > book </a>
 </div>
-<!--+ ', ' + book.getPerson_id()-->
+
 <hr/>
 
 

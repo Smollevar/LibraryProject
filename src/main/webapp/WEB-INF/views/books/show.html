@@ -6,26 +6,13 @@
 </head>
 <body>
 
-<p>
-    <a th:href="@{/books}"> home page </a>
-</p>
+<form th:action="@{/books}" >
+    <input type="submit" value="Home page"/>
+</form>
 
-<!--<p th:text="${book.getId()}"> id </p>-->
 <p th:text="${book.getTitle()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}"> Title </p>
-<!--<p th:text="${book.getAuthor()}"> Author </p>-->
-<!--<p th:text="${book.getYear()}"> Year </p>-->
-<!--<p th:if="${book.getPerson_id()} == 9999" -->
-<!--   th:text="Эта книга свободна"> </p>-->
-
-<!--<p th:text="${book.getPerson_id()} + ', ' + ForeignKey" > </p>-->
-
-<!--<p>-->
-<!--    <a th:href="@{/books/{id}/changeFK(id=${book.getId()})}" > Change foreign key </a>-->
-<!--</p>-->
 
 <p th:if="${book.getOwner().getPerson_id() eq -1}"> Книга свободна </p>
-
-<!-- ? 'Книга свободна' : 'Книга занята'-->
 
 <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" >
 
@@ -38,18 +25,6 @@
 
     <input type="submit" value="Назначить книгу"/>
 </form>
-
-<!--<form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" >-->
-<!--    <label for="person"> Выберите человека:</label>-->
-<!--    <select th:object="${book}" th:field="*{person_id}" id="person">-->
-<!--        <option th:each="person : ${people}" th:value="${person.getPerson_id()}"-->
-<!--                th:text="${person.getFullName()}"></option>-->
-<!--    </select>-->
-
-<!--    <input type="submit" value="Назначить книгу"/>-->
-<!--</form>-->
-
-<!--<a th:href="@{/books/{id}/edit(id=${book.getId()})}"> Edit book</a>-->
 
 <form th:action="@{/books/{id}/edit(id=${book.getId()})}">
     <input type="submit" value="Edit"/>

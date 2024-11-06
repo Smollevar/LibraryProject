@@ -20,8 +20,7 @@ public class BooksController {
     private BookDAO bookDAO;
     private BookValidator bookValidator;
     private PersonDAO personDAO;
-    private int local; // dirt trick that may be cause of problem...
-    private int tmp_year;
+    private int local;
 
     @Autowired
     public BooksController(BookDAO bookDAO, BookValidator bookValidator, PersonDAO personDAO) {
@@ -36,18 +35,8 @@ public class BooksController {
         return "/books/index";
     }
 
-    @GetMapping("/{id}/changeFK")
-    public String changeFK(@ModelAttribute("id") int id, Model model) {
-        bookDAO.updateFK(id);
-        model.addAttribute("book", bookDAO.show(id));
-        return "redirect:/books/{id}";
-    }
-
     @PatchMapping("/{id}/assign")
     public String assign(@ModelAttribute("person") Book book, @PathVariable("id") int id) {
-//        System.out.println(book.getOwner());
-//        System.out.println(book.getOwner().getPerson_id());
-//        System.out.println("id is " + id);
         bookDAO.assignBook(id, book.getOwner().getPerson_id());
 
         return "redirect:/books";
@@ -56,14 +45,8 @@ public class BooksController {
     @GetMapping("{id}")
     public String show(Model model, @PathVariable("id") int id) {
         Book book = bookDAO.show(id);
-//        if (bookDAO.show(id).isPresent()) {
-//            book = bookDAO.show(id).get();
-//            model.addAttribute("book", book);
-//            model.addAttribute("people", personDAO.index());
-//        } else System.out.println("Book not found");
         List<Person> people = personDAO.index();
         System.out.println(people);
-        tmp_year = book.getId();
         model.addAttribute("book", book);
         model.addAttribute("people", people);
         return "/books/show";
