@@ -17,7 +17,7 @@ import java.util.Optional;
 public class BookDAO {
     private JdbcTemplate jdbcTemplate;
     private PersonDAO personDAO;
-//    private boolean firstTime = true;
+    private boolean firstTime = true;
     private SessionFactory sessionFactory;
 
     public BookDAO() {
@@ -33,7 +33,15 @@ public class BookDAO {
     @Transactional
     public List<Book> index() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("SELECT b FROM Book b", Book.class).getResultList();
+        List <Book> books = session.createQuery("SELECT b FROM Book b ORDER BY id", Book.class).getResultList();
+        if (firstTime) {
+//            Person placeHolderPerson = session.get(Person.class, -1);
+            for(Book book : books) {
+                book.setOwner(session.get(Person.class, -1));
+            }
+            firstTime = false;
+        }
+        return books;
     }
 
     @Transactional

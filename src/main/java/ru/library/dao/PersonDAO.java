@@ -41,7 +41,7 @@ public class PersonDAO {
 //            }
 //            first_time = true;
 //        }
-        return session.createQuery("select p from Person p", Person.class).getResultList();
+        return session.createQuery("select p from Person p ORDER BY person_id", Person.class).getResultList();
     }
 
     @Transactional
