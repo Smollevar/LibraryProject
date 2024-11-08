@@ -28,13 +28,13 @@ public class PersonDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Person> index() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select p from Person p ORDER BY person_id", Person.class).getResultList();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Person show(int id) {
         Session session = sessionFactory.getCurrentSession();
         Person person = session.get(Person.class, id);
@@ -42,7 +42,9 @@ public class PersonDAO {
         return person;
     }
 
-    public Optional<Person> show(String name, int born) { // Person
+    @Transactional(readOnly = true)
+    public Optional<Person> show(String name, int born) {
+        Session session = sessionFactory.getCurrentSession();
         return jdbcTemplate.query("SELECT * FROM Person WHERE fullName = ? and age = ?", new Object[]{name, born}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny();
     }

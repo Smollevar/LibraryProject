@@ -12,9 +12,9 @@
 
 <hr/>
 
-<p>
-    <a th:href="@{books/new}">Add book...</a>
-</p>
+<form th:action="@{books/new}" >
+    <input type="submit" value="Add book"/>
+</form>
 <hr/>
 
 <div th:each="book : ${books}">

@@ -88,11 +88,6 @@ public class BookDAO {
         session.saveOrUpdate(book);
         session.saveOrUpdate(person);
 
-
-
-
-
-
 //
 //        if (person.getBooks() == null)
 //            person.setBooks(new ArrayList<>());
