@@ -14,7 +14,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int person_id;
 
-    @Pattern(regexp = "[ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+")
+    @Pattern(regexp = "[ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+", message = "Имя должно быть в формате:Иванов Иван Иванович")
     @Size(min = 6, max = 70, message = "Имя должно быть в формате:Иванов Иван Иванович")
     @Column(name = "fullName")
     private String fullName;
