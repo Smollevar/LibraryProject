@@ -1,7 +1,6 @@
 package ru.library.services;
 
 import jakarta.transaction.Transactional;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.library.Models.Book;
@@ -27,8 +26,7 @@ public class PeopleServices {
     }
 
     public List<Person> findAll() {
-//        return peopleRepository.findAllByOrderByPerson_id();
-        return peopleRepository.findAll();
+        return peopleRepository.findAllByOrderByPersonId();
     }
 
     public Person findById(int id) {
@@ -45,15 +43,14 @@ public class PeopleServices {
         Person person = peopleRepository.findById(id).get();
         List<Book> books = person.getBooks();
         for(Book book : books) {
-            System.out.println(book.getOwner().getPerson_id());
+            System.out.println(book.getOwner().getPersonId());
         }
-//        System.out.println(person.getBooks().size());
         return person;
     }
 
     public void update(int id, Person updatePerson) {
         updatePerson.setCreatedAt(new Date());
-        updatePerson.setPerson_id(id);
+        updatePerson.setPersonId(id);
         peopleRepository.save(updatePerson);
     }
 

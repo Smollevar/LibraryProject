@@ -74,12 +74,12 @@ public class PeopleController {
                          BindingResult br, @PathVariable("id") int id,
                          Model model) {
         personValidator.validate(person, br);
-        person.setPerson_id(id);
+        person.setPersonId(id);
         if (br.hasErrors()) {
             model.addAttribute("person", person);
             return "/people/edit";
         }
-        peopleServices.update(person.getPerson_id(), person);
+        peopleServices.update(person.getPersonId(), person);
         return "redirect:/people";
     }
 

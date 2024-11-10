@@ -45,8 +45,8 @@ public class BooksController {
 
     @PatchMapping("/{id}/assign")
     public String assign(@ModelAttribute("person") Book book, @PathVariable("id") int id) {
-        //        bookDAO.assignBook(id, book.getOwner().getPerson_id());
-        bookServices.assignBook(id, book.getOwner().getPerson_id());
+        //        bookDAO.assignBook(id, book.getOwner().getPersonId());
+        bookServices.assignBook(id, book.getOwner().getPersonId());
         return "redirect:/books";
     }
 
@@ -66,7 +66,7 @@ public class BooksController {
     public String edit(@PathVariable("id") int id, Model model) {
 //        model.addAttribute("book", bookDAO.show(id));
         model.addAttribute("book", bookServices.findById(id));
-//        local = bookDAO.show(id).getOwner().getPerson_id();
+//        local = bookDAO.show(id).getOwner().getPersonId();
 //        local = bookServices.
         return "/books/edit";
     }

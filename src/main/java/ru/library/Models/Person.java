@@ -15,10 +15,9 @@ public class Person {
     @Id
     @Column(name = "person_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int person_id;
+    private int personId;
 
     @Pattern(regexp = "[ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+", message = "Имя должно быть в формате:Иванов Иван Иванович")
-//    @Size(min = 6, max = 70, message = "Имя должно быть в формате:Иванов Иван Иванович")
     @Column(name = "fullName")
     private String fullName;
 
@@ -30,29 +29,22 @@ public class Person {
     @OneToMany(mappedBy = "owner")
     private List<Book> books;
 
-//    @Pattern(regexp = "dd/MM/yyyy", message = "date must being in format dd/MM/yyyy")
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dateOfBirth;
 
-    // todo add class validator for both person and book
-    // todo add javascript library for selecting date of born...
-    
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-
-//    @Enumerated(EnumType.ORDINAL)
-//    private Mood mood;
 
     @Transient
     private String prepareDate;
 
     public Person() {}
 
-    public Person(int person_id, String fullName, int age) {
-        this.person_id = person_id;
+    public Person(int personId, String fullName, int age) {
+        this.personId = personId;
         this.fullName = fullName;
         this.age = age;
     }
@@ -81,12 +73,12 @@ public class Person {
         this.age = age;
     }
 
-    public int getPerson_id() {
-        return person_id;
+    public int getPersonId() {
+        return personId;
     }
 
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 
     public List<Book> getBooks() {
@@ -116,7 +108,7 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "person_id=" + person_id +
+                "personId=" + personId +
                 ", fullName='" + fullName + '\'' +
                 ", age=" + age +
                 '}';
