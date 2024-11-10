@@ -20,7 +20,7 @@
 
 <div th:if="${person.getBooks().isEmpty() != true}">
     <div th:each="book : ${books}">
-        <p th:if="${person.getPerson_id() == book.getOwner().getPerson_id()}" ? th:text="${book.getTitle()}"> Title of book that was getting by person</p>
+        <div th:if="${person.getPerson_id() == book.getOwner().getPerson_id()}" th:text="${book.getTitle()}"> Title of book that was getting by person</div>
     </div>
 </div>
 

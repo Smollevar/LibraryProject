@@ -38,14 +38,15 @@ public class BooksController {
     @GetMapping()
     public String index(Model model) {
 //        model.addAttribute("books", bookDAO.index());
-        model.addAttribute("books", bookServices.findAll());
+//        model.addAttribute("books", bookServices.findAll());
+        model.addAttribute("books", bookServices.findAllOrderById());
         return "/books/index";
     }
 
     @PatchMapping("/{id}/assign")
     public String assign(@ModelAttribute("person") Book book, @PathVariable("id") int id) {
-//        bookDAO.assignBook(id, book.getOwner().getPerson_id());
-//        bookServices.
+        //        bookDAO.assignBook(id, book.getOwner().getPerson_id());
+        bookServices.assignBook(id, book.getOwner().getPerson_id());
         return "redirect:/books";
     }
 

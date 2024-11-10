@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.library.Models.Person;
 import ru.library.dao.BookDAO;
 import ru.library.dao.PersonDAO;
+import ru.library.services.BookServices;
 import ru.library.services.PeopleServices;
 import ru.library.util.PersonValidator;
 
@@ -16,18 +17,20 @@ import ru.library.util.PersonValidator;
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final BookDAO bookDAO;
-    private PersonValidator personValidator;
+//    private final BookDAO bookDAO;
+    private final BookServices bookServices;
+    private final PersonValidator personValidator;
 //    private PersonDAO personDAO;
     private final PeopleServices peopleServices;
     private boolean firstTime = true;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO, BookDAO bookDAO , PersonValidator personValidator, PeopleServices peopleServices) { //
+    public PeopleController(PersonValidator personValidator, PeopleServices peopleServices, BookServices bookServices) { // PersonDAO personDAO, BookDAO bookDAO ,
 //        this.personDAO = personDAO;
         this.peopleServices = peopleServices;
         this.personValidator = personValidator;
-        this.bookDAO = bookDAO;
+//        this.bookDAO = bookDAO;
+        this.bookServices = bookServices;
     }
 
     @GetMapping()
@@ -82,9 +85,9 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         Person person = null;
-        person = peopleServices.findById(id);
+        person = peopleServices.show(id);
         model.addAttribute("person", person);
-        model.addAttribute("books", bookDAO.index());
+        model.addAttribute("books", bookServices.findAll());
         return "/people/show";
     }
 

@@ -17,7 +17,7 @@ import java.util.Optional;
 @Component
 public class BookDAO {
     private JdbcTemplate jdbcTemplate;
-    private PersonDAO personDAO;
+//    private PersonDAO personDAO;
     private boolean firstTime = true;
     private SessionFactory sessionFactory;
 
@@ -25,9 +25,9 @@ public class BookDAO {
     }
 
     @Autowired
-    public BookDAO(SessionFactory sessionFactory, JdbcTemplate jdbcTemplate, PersonDAO personDAO) {
-        this.personDAO = personDAO;
-        this.sessionFactory = sessionFactory;
+    public BookDAO(JdbcTemplate jdbcTemplate, PersonDAO personDAO) { // SessionFactory sessionFactory,
+//        this.personDAO = personDAO;
+//        this.sessionFactory = sessionFactory;
         this.jdbcTemplate = jdbcTemplate;
     }
 
