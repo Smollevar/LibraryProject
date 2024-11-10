@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Person {
     private int person_id;
 
     @Pattern(regexp = "[ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+ [ЁА-Я][ёа-я]+", message = "Имя должно быть в формате:Иванов Иван Иванович")
-    @Size(min = 6, max = 70, message = "Имя должно быть в формате:Иванов Иван Иванович")
+//    @Size(min = 6, max = 70, message = "Имя должно быть в формате:Иванов Иван Иванович")
     @Column(name = "fullName")
     private String fullName;
 
@@ -29,9 +30,10 @@ public class Person {
     @OneToMany(mappedBy = "owner")
     private List<Book> books;
 
+//    @Pattern(regexp = "dd/MM/yyyy", message = "date must being in format dd/MM/yyyy")
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd/MM/yyyy") // дд/мм/гггг
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dateOfBirth;
 
     // todo add class validator for both person and book
@@ -41,12 +43,26 @@ public class Person {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+//    @Enumerated(EnumType.ORDINAL)
+//    private Mood mood;
+
+    @Transient
+    private String prepareDate;
+
     public Person() {}
 
     public Person(int person_id, String fullName, int age) {
         this.person_id = person_id;
         this.fullName = fullName;
         this.age = age;
+    }
+
+    public String getPrepareDate() {
+        return prepareDate;
+    }
+
+    public void setPrepareDate(String prepareDate) {
+        this.prepareDate = prepareDate;
     }
 
     public String getFullName() {

@@ -27,6 +27,7 @@ public class PeopleServices {
     }
 
     public List<Person> findAll() {
+//        return peopleRepository.findAllByOrderByPerson_id();
         return peopleRepository.findAll();
     }
 
@@ -51,6 +52,7 @@ public class PeopleServices {
     }
 
     public void update(int id, Person updatePerson) {
+        updatePerson.setCreatedAt(new Date());
         updatePerson.setPerson_id(id);
         peopleRepository.save(updatePerson);
     }

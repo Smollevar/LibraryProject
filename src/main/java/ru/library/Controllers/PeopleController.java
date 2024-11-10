@@ -52,10 +52,11 @@ public class PeopleController {
 
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
-                         BindingResult br) {
-        System.out.println(person);
+                         BindingResult br, Model model) {
+//        System.out.println(person);
         personValidator.validate(person, br);
         if (br.hasErrors()) {
+            model.addAttribute("person", person);
             return "people/new";
         }
         peopleServices.save(person);

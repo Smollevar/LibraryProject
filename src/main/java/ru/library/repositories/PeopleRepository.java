@@ -11,4 +11,6 @@ public interface PeopleRepository extends JpaRepository<Person, Integer> {
 
     Person findAllByFullNameAndAge(String fullName, int age);
 
+//    List<Person> findAllByOrderByPerson_id();
+
 }
