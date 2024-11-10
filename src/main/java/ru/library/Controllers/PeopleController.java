@@ -54,10 +54,10 @@ public class PeopleController {
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult br) {
         System.out.println(person);
-//        personValidator.validate(person, br);
-//        if (br.hasErrors()) {
-//            return "people/new";
-//        }
+        personValidator.validate(person, br);
+        if (br.hasErrors()) {
+            return "people/new";
+        }
         peopleServices.save(person);
         return "redirect:/people";
     }

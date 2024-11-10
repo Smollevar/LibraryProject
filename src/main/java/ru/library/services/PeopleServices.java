@@ -9,6 +9,7 @@ import ru.library.Models.Person;
 import ru.library.repositories.BookRepository;
 import ru.library.repositories.PeopleRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class PeopleServices {
     }
 
     public void save(Person person) {
+        person.setCreatedAt(new Date());
         peopleRepository.save(person);
     }
 
@@ -61,6 +63,10 @@ public class PeopleServices {
         }
         books.clear();
         peopleRepository.deleteById(id);
+    }
+
+    public Person validatorMethodByNameAndAge(String name, int age) {
+        return peopleRepository.findAllByFullNameAndAge(name, age);
     }
 
 }
