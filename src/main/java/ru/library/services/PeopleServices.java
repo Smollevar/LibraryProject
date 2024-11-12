@@ -27,7 +27,7 @@ public class PeopleServices {
     }
 
     public List<Person> findAll() {
-        return peopleRepository.findAll(Sort.by("fullName"));
+        return peopleRepository.findAll(Sort.by("personId"));
     }
 
     public Person findById(int id) {

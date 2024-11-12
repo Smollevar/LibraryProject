@@ -14,6 +14,11 @@
 
 <p th:if="${(book.getOwner() eq null) || (book.getOwner().getPersonId() eq -1)}"> Книга свободна </p>
 
+<div th:if="${!(book.getOwner() eq null)}">
+<!--    <p>  </p>-->
+    <div th:text= "'Книга взята: ' + ${book.getOwner().getFullName()}"></div>
+</div>
+
 <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" >
 
     <label for="person"> Выберите человека:</label>
