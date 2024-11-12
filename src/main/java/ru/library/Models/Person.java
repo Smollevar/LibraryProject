@@ -5,10 +5,13 @@ import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Table(name = "person")
 @Entity
@@ -39,6 +42,12 @@ public class Person {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+    // todo create date with timestamp which will being added when book assing to person
+
+    @Column(name = "assigned")
+    @Temporal(TemporalType.DATE)
+    private Date assigned;
+
     @Transient
     private String prepareDate;
 
@@ -48,6 +57,14 @@ public class Person {
         this.personId = personId;
         this.fullName = fullName;
         this.age = age;
+    }
+
+    public Date getAssigned() {
+        return assigned;
+    }
+
+    public void setAssigned(Date assigned) {
+        this.assigned = assigned;
     }
 
     public String getPrepareDate() {
@@ -113,6 +130,15 @@ public class Person {
                 ", fullName='" + fullName + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    public int countDown() {
+        int days;
+        Date current = new Date();
+        long diff = current.getTime() - assigned.getTime();
+        days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+//        days = Math.toIntExact(ChronoUnit.DAYS.between(current.toInstant(), assigned.toInstant()));
+        return days;
     }
 
     @Override

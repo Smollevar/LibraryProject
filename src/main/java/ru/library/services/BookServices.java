@@ -9,6 +9,7 @@ import ru.library.repositories.BookRepository;
 import ru.library.repositories.PeopleRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,7 @@ public class BookServices {
             person.setBooks(new ArrayList<>());
         Book book = bookRepository.findById(id).get();
         person.getBooks().add(book);
+        person.setAssigned(new Date());
         book.setOwner(person);
         bookRepository.save(book);
         peopleRepository.save(person);

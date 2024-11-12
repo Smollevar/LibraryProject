@@ -47,7 +47,9 @@ public class BooksController {
     public String show(Model model, @PathVariable("id") int id) {
         Book book = bookServices.findById(id);
         List<Person> people = peopleServices.findAll();
-        System.out.println(people);
+//        System.out.println(people);
+//        System.out.println(book.getOwner().countDown());
+        if (book.getOwner() != null) model.addAttribute("countDown", book.getOwner().countDown());
         model.addAttribute("book", book);
         model.addAttribute("people", people);
         return "/books/show";

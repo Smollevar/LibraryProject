@@ -17,8 +17,12 @@
 <div th:if="${!(book.getOwner() eq null)}">
 <!--    <p>  </p>-->
     <div th:text= "'Книга взята: ' + ${book.getOwner().getFullName()}"></div>
+    <div th:if="${countDown} < 30">
+        <div th:text="'Дней до возврата: ' + ${30 - countDown}"> </div>
+    </div>
+    <div th:if="${countDown} > 30"> Дата возврата просрочена! </div>
 </div>
-
+<!-- todo finish with error when there is no user...-->
 <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" >
 
     <label for="person"> Выберите человека:</label>
