@@ -20,9 +20,9 @@
     <input type="text" th:field="*{fullName}" id="name"/>
     <p style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"> Error </p>
 
-    <label for="age"> Enter age </label>
-    <input type="text" th:field="*{age}" id="age"/>
-    <p style="color:red" th:if="${#fields.hasErrors('age')}" th:erros="*{age}"> Age must being in range from 1940 until 2024 </p>
+<!--    <label for="age"> Enter age </label>-->
+<!--    <input type="text" th:field="*{age}" id="age"/>-->
+<!--    <p style="color:red" th:if="${#fields.hasErrors('age')}" th:erros="*{age}"> Age must being in range from 1940 until 2024 </p>-->
 
     <label for="date_of_birth"> Enter date of birth (dd/mm/yyyy) </label>
     <input type="text" th:field="*{prepareDate}" id="date_of_birth"/>

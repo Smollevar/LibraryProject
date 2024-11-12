@@ -1,6 +1,5 @@
 package ru.library.util;
 
-import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -10,9 +9,11 @@ import ru.library.dao.PersonDAO;
 import ru.library.services.PeopleServices;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 @Component
@@ -39,16 +40,19 @@ public class PersonValidator implements Validator {
             errors.rejectValue("age", "", "Duplicate year of age");
         }
         try {
-            if (dataParser(person.getPrepareDate())) {
+            boolean valid = dataParser(person);
+            if (valid) {
                 errors.rejectValue("prepareDate", "", "Date format should be yyyy-MM-dd");
             } else person.setDateOfBirth(new SimpleDateFormat("dd/MM/yyyy").parse(person.getPrepareDate()));
         } catch (java.text.ParseException e) {
             errors.rejectValue("prepareDate", "", "Invalid date format");
-            System.out.println(e.getMessage());
         }
     }
 
-    public boolean dataParser(String date) {
+    public boolean dataParser(Person person) {
+
+        String date = person.getPrepareDate();
+
         boolean result = false;
         StringBuilder digit = new StringBuilder();
         int i = date.length() - 1;
@@ -56,21 +60,22 @@ public class PersonValidator implements Validator {
         int year = 0;
         int month = 0;
         int comparableDigit;
+
         while (i > -1 && !result) {
             if (Character.isDigit(date.charAt(i))) {
-                System.out.println(date.charAt(i));
+//                System.out.println(date.charAt(i));
                 digit.append(date.charAt(i));
             } else if (date.charAt(i) == '/' && part.equals("Year")) {
                 digit.reverse();
                 year = Integer.parseInt(digit.toString());
-                System.out.println("Year is " + year);
+//                System.out.println("Year is " + year);
                 if (year > 2024 || year < 1940) result = true;
                 digit = new StringBuilder();
                 part = "Month";
             } else if (date.charAt(i) == '/' && part.equals("Month")) {
                 digit.reverse();
                 month = Integer.parseInt(digit.toString());
-                System.out.println("moght is " + month);
+//                System.out.println("moght is " + month);
                 if (month > 12 || month == 0) result = true;
                 digit = new StringBuilder();
                 part = "Day";
@@ -78,8 +83,8 @@ public class PersonValidator implements Validator {
             if (i == 0) {
                 digit.reverse();
                 comparableDigit = Integer.parseInt(digit.toString());
-                System.out.println("day is " + digit);
-                System.out.println("day is " + comparableDigit);
+//                System.out.println("day is " + digit);
+//                System.out.println("day is " + comparableDigit);
                 if (comparableDigit > 31 || comparableDigit == 0) result = true;
                 if ((month == 4 || month == 6 || month == 9 || month == 10) &&
                         comparableDigit > 30) result = true;
@@ -89,6 +94,24 @@ public class PersonValidator implements Validator {
             }
             i--;
         }
+
+//        System.out.println(result);
+
+        if (!result) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                Date birth = formatter.parse(date);
+                Date current = new Date();
+                int age = current.getYear() - birth.getYear();
+                //noinspection deprecation
+                if (current.getMonth() - birth.getMonth() < 0) age++;
+                else if ((current.getMonth() - birth.getMonth() == 0) && (current.getDate() - birth.getDate() < 0)) age++;
+                person.setAge(age);
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return result;
     }
+
 }

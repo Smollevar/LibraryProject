@@ -2,6 +2,7 @@ package ru.library.Models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -22,8 +23,7 @@ public class Person {
     @Column(name = "fullName")
     private String fullName;
 
-    @Min(value = 1940, message = "All people from DB age after 1940 year")
-    @Max(value = 2024, message = "All people from DB age before 2025 year")
+//    @Range(min = 1, max = 120, message = "out of range")
     @Column(name = "age")
     private int age;
 
