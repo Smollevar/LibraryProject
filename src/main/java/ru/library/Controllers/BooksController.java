@@ -19,42 +19,33 @@ import java.util.List;
 @Controller
 @RequestMapping("/books")
 public class BooksController {
-//    private BookDAO bookDAO;
     private final BookServices bookServices;
     private final PeopleServices peopleServices;
     private BookValidator bookValidator;
-//    private PersonDAO personDAO;
     private int local;
 
     @Autowired
     public BooksController(BookServices bookServices, PeopleServices peopleServices, BookValidator bookValidator, PersonDAO personDAO) { // BookDAO bookDAO,
-//        this.bookDAO = bookDAO;
         this.peopleServices = peopleServices;
         this.bookServices = bookServices;
         this.bookValidator = bookValidator;
-//        this.personDAO = personDAO;
     }
 
     @GetMapping()
     public String index(Model model) {
-//        model.addAttribute("books", bookDAO.index());
-//        model.addAttribute("books", bookServices.findAll());
         model.addAttribute("books", bookServices.findAllOrderById());
         return "/books/index";
     }
 
     @PatchMapping("/{id}/assign")
     public String assign(@ModelAttribute("person") Book book, @PathVariable("id") int id) {
-        //        bookDAO.assignBook(id, book.getOwner().getPersonId());
         bookServices.assignBook(id, book.getOwner().getPersonId());
         return "redirect:/books";
     }
 
     @GetMapping("{id}")
     public String show(Model model, @PathVariable("id") int id) {
-//        Book book = bookDAO.show(id);
         Book book = bookServices.findById(id);
-//        List<Person> people = personDAO.index();
         List<Person> people = peopleServices.findAll();
         System.out.println(people);
         model.addAttribute("book", book);
@@ -64,21 +55,14 @@ public class BooksController {
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
-//        model.addAttribute("book", bookDAO.show(id));
         model.addAttribute("book", bookServices.findById(id));
-//        local = bookDAO.show(id).getOwner().getPersonId();
-//        local = bookServices.
         return "/books/edit";
     }
 
     @PatchMapping("/{id}")
         public String patch(@ModelAttribute("book") @Valid Book book,
                             BindingResult br, @PathVariable("id") int id) {
-//        bookValidator.validate(book, br);
-//        if (br.hasErrors()) {
-//            return "/books/edit";
-//        }
-//        bookDAO.update(local, book);
+        // todo finish method with br.
         bookServices.update(id, book);
         return "redirect:/books";
     }
@@ -94,14 +78,12 @@ public class BooksController {
         bookValidator.validate(book, br);
         if (br.hasErrors()) return "books/new";
         System.out.println(book);
-//        bookDAO.save(book);
         bookServices.save(book.getId(), book);
         return "redirect:/books";
     }
 
     @DeleteMapping("{id}")
     public String delete(@PathVariable("id") int id) {
-//        bookDAO.delete(id);
         bookServices.delete(id);
         return "redirect:/books";
     }

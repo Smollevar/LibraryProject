@@ -29,24 +29,24 @@ public class BookServices {
         this.peopleRepository = peopleRepository;
     }
 
-    // index
-
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    public Book show(String title) {
+//        return bookRepository.findByTitle(title);
+        List<Book> books = findAll();
+        return books.stream().filter(b -> b.getTitle().equals(title)).findFirst().orElse(null);
     }
 
     public List<Book> findAllOrderById() {
         return bookRepository.findAllByOrderById();
     }
 
-    // show
     public Book findById(int id) {
         return bookRepository.findById(id).orElse(null);
-//        Optional<Book> book = bookRepository.findById(id);
-//        return book.orElse(null);
     }
 
-    // delete
     public void delete(int id) {
         bookRepository.deleteById(id);
     }
@@ -62,8 +62,8 @@ public class BookServices {
     }
 
     public void assignBook(int id, int personId) {
-        System.out.println(id);
-        System.out.println(personId);
+//        System.out.println(id);
+//        System.out.println(personId);
         Person person = peopleRepository.findById(personId).get();
         if(person.getBooks() == null)
             person.setBooks(new ArrayList<>());

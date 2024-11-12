@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Table(name = "person")
 @Entity
@@ -112,5 +113,18 @@ public class Person {
                 ", fullName='" + fullName + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return personId == person.personId && age == person.age;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(personId, age);
     }
 }

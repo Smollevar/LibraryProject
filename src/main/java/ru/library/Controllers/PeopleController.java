@@ -7,8 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.library.Models.Person;
-import ru.library.dao.BookDAO;
-import ru.library.dao.PersonDAO;
 import ru.library.services.BookServices;
 import ru.library.services.PeopleServices;
 import ru.library.util.PersonValidator;
@@ -17,28 +15,19 @@ import ru.library.util.PersonValidator;
 @RequestMapping("/people")
 public class PeopleController {
 
-//    private final BookDAO bookDAO;
     private final BookServices bookServices;
     private final PersonValidator personValidator;
-//    private PersonDAO personDAO;
     private final PeopleServices peopleServices;
-    private boolean firstTime = true;
 
     @Autowired
-    public PeopleController(PersonValidator personValidator, PeopleServices peopleServices, BookServices bookServices) { // PersonDAO personDAO, BookDAO bookDAO ,
-//        this.personDAO = personDAO;
+    public PeopleController(PersonValidator personValidator, PeopleServices peopleServices, BookServices bookServices) { //  BookDAO bookDAO, PersonDAO personDAO,
         this.peopleServices = peopleServices;
         this.personValidator = personValidator;
-//        this.bookDAO = bookDAO;
         this.bookServices = bookServices;
     }
 
     @GetMapping()
     public String index(Model model) {
-//        if (firstTime) {
-//            personDAO.createPlaceholderPerson();
-//            firstTime = false;
-//        }
         model.addAttribute("people", peopleServices.findAll());
         return "/people/index";
     }
@@ -53,7 +42,6 @@ public class PeopleController {
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult br, Model model) {
-//        System.out.println(person);
         personValidator.validate(person, br);
         if (br.hasErrors()) {
             model.addAttribute("person", person);
@@ -88,7 +76,7 @@ public class PeopleController {
         Person person = null;
         person = peopleServices.show(id);
         model.addAttribute("person", person);
-        model.addAttribute("books", bookServices.findAll());
+        model.addAttribute("books", peopleServices.getAllBooksOfPerson(person));
         return "/people/show";
     }
 
