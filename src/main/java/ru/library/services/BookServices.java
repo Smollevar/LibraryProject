@@ -43,6 +43,8 @@ public class BookServices {
         return bookRepository.findAllByOrderById();
     }
 
+    public List<Book> findAllOrderByTitle() {return bookRepository.findAllByOrderByTitle();}
+
     public Book findById(int id) {
         return bookRepository.findById(id).orElse(null);
     }

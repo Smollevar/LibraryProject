@@ -33,7 +33,7 @@ public class BooksController {
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("books", bookServices.findAllOrderById());
+        model.addAttribute("books", bookServices.findAllOrderByTitle());
         return "/books/index";
     }
 
@@ -78,7 +78,6 @@ public class BooksController {
                           BindingResult br) {
         bookValidator.validate(book, br);
         if (br.hasErrors()) return "books/new";
-//        System.out.println(book);
         bookServices.save(book.getId(), book);
         return "redirect:/books";
     }
