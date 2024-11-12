@@ -62,7 +62,8 @@ public class BooksController {
     @PatchMapping("/{id}")
         public String patch(@ModelAttribute("book") @Valid Book book,
                             BindingResult br, @PathVariable("id") int id) {
-        // todo finish method with br.
+        bookValidator.validate(book, br);
+        if (br.hasErrors()) return "/books/edit";
         bookServices.update(id, book);
         return "redirect:/books";
     }
@@ -77,7 +78,7 @@ public class BooksController {
                           BindingResult br) {
         bookValidator.validate(book, br);
         if (br.hasErrors()) return "books/new";
-        System.out.println(book);
+//        System.out.println(book);
         bookServices.save(book.getId(), book);
         return "redirect:/books";
     }

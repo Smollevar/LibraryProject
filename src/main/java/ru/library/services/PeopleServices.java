@@ -1,14 +1,10 @@
 package ru.library.services;
 
 import jakarta.transaction.Transactional;
-import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.library.Models.Book;
-import ru.library.Models.Mood;
 import ru.library.Models.Person;
 import ru.library.repositories.BookRepository;
 import ru.library.repositories.PeopleRepository;
@@ -31,12 +27,7 @@ public class PeopleServices {
     }
 
     public List<Person> findAll() {
-//        return peopleRepository.findAllByOrderByPersonId();
         return peopleRepository.findAll(Sort.by("fullName"));
-//        PageImpl page = new PageImpl(peopleRepository.findAll());
-        //  Sort.by("fullName")
-//        int itemsPerPage = page.getSize();
-//        return peopleRepository.findAll(PageRequest.of(page, itemsPerPage, Sort.by("fullName")).getContent);
     }
 
     public Person findById(int id) {
@@ -45,7 +36,6 @@ public class PeopleServices {
     }
 
     public void save(Person person) {
-//        person.setMood(Mood.CALM);
         person.setCreatedAt(new Date());
         peopleRepository.save(person);
     }
