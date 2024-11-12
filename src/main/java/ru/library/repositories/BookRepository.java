@@ -12,7 +12,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findAllByOrderById();
 
-    List<Book> findAllByOrderByTitle();
+    List<Book> findAllByOrderByYear();
 
     Book findByTitle(String title);
 

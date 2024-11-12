@@ -20,7 +20,7 @@
 
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getPersonId()})}"
-       th:if="${person.getPersonId() != -1}" ? th:text="${person.getPersonId() + ', ' + person.getFullName() + ', ' + person.getAge()}"
+       th:if="${person.getPersonId() != -1}" ? th:text="${person.getFullName() + ', ' + person.getAge()}"
     > user </a>
 </div>
 

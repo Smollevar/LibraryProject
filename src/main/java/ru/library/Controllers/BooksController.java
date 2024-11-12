@@ -33,7 +33,7 @@ public class BooksController {
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("books", bookServices.findAllOrderByTitle());
+        model.addAttribute("books", bookServices.findAllOrderByYear());
         return "/books/index";
     }
 
