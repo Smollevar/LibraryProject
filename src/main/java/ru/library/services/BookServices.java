@@ -37,7 +37,6 @@ public class BookServices {
     }
 
     public Book show(String title) {
-//        return bookRepository.findByTitle(title);
         List<Book> books = findAll();
         return books.stream().filter(b -> b.getTitle().equals(title)).findFirst().orElse(null);
     }
@@ -67,8 +66,6 @@ public class BookServices {
     }
 
     public void assignBook(int id, int personId) {
-//        System.out.println(id);
-//        System.out.println(personId);
         Person person = peopleRepository.findById(personId).get();
         if(person.getBooks() == null)
             person.setBooks(new ArrayList<>());

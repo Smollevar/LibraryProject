@@ -136,7 +136,6 @@ public class Person {
         Date current = new Date();
         long diff = current.getTime() - person.getAssigned().getTime();
         days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-        System.out.println(days);
         return days;
     }
 

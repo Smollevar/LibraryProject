@@ -41,6 +41,10 @@
     <input type="submit" value="Назначить книгу"/>
 </form>
 
+<form th:action="@{/books/page={order}books_per_page/{size}}">
+    <input type="submit" value="Return book in library."/>
+</form>
+
 <form th:action="@{/books/{id}/edit(id=${book.getId()})}">
 
     <input type="submit" value="Edit"/>

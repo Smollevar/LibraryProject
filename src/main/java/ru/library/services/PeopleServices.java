@@ -1,6 +1,7 @@
 package ru.library.services;
 
 import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -43,9 +44,8 @@ public class PeopleServices {
     public Person show(int id) {
         Person person = peopleRepository.findById(id).get();
         List<Book> books = person.getBooks();
-        for(Book book : books) {
-            System.out.println(book.getOwner().getPersonId());
-        }
+        Hibernate.initialize(books);
+        Hibernate.initialize(person);
         return person;
     }
 

@@ -22,7 +22,6 @@ public class BooksController {
     private final BookServices bookServices;
     private final PeopleServices peopleServices;
     private BookValidator bookValidator;
-    private int local;
 
     @Autowired
     public BooksController(BookServices bookServices, PeopleServices peopleServices, BookValidator bookValidator, PersonDAO personDAO) { // BookDAO bookDAO,
@@ -39,10 +38,10 @@ public class BooksController {
 
     // todo get key value from browser 'n transfer it to method.
 
-    @GetMapping("?page/{order}&books_per_page/{size}")
-    public String index(@PathVariable("order") int order,
+    @GetMapping("/page/{totalPages}&books_per_page/{size}")
+    public String index(@PathVariable("totalPages") int order,
                         @PathVariable("size") int size, Model model) {
-        System.out.println("Hello from 45 line");
+        System.out.println("Hello from 45 line" + order + " " + size);
         return null;
     }
 

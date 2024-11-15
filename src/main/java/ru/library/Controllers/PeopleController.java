@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.library.Models.Person;
-import ru.library.services.BookServices;
 import ru.library.services.PeopleServices;
 import ru.library.util.PersonValidator;
 
@@ -16,15 +14,13 @@ import ru.library.util.PersonValidator;
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final BookServices bookServices;
     private final PersonValidator personValidator;
     private final PeopleServices peopleServices;
 
     @Autowired
-    public PeopleController(PersonValidator personValidator, PeopleServices peopleServices, BookServices bookServices) { //  BookDAO bookDAO, PersonDAO personDAO,
+    public PeopleController(PersonValidator personValidator, PeopleServices peopleServices) {
         this.peopleServices = peopleServices;
         this.personValidator = personValidator;
-        this.bookServices = bookServices;
     }
 
     @GetMapping()

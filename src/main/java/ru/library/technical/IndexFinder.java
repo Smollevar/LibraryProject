@@ -15,7 +15,6 @@ public class IndexFinder {
 
         if (entity.getFirst() instanceof Person) {
             listPerson = entity;
-//            for (Person p : listPerson) indexes.add(p.getPerson_id());
         } else if (entity.getFirst() instanceof Book) {
             listBook = entity;
             for (Book p : listBook) indexes.add(p.getId());
