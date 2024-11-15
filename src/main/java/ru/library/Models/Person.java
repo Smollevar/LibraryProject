@@ -41,8 +41,6 @@ public class Person {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
-    // todo create date with timestamp which will being added when book assing to person
-
     @Column(name = "assigned")
     @Temporal(TemporalType.DATE)
     private Date assigned;

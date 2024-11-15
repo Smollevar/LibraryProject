@@ -36,19 +36,18 @@ public class BooksController {
         return "/books/index";
     }
 
-    // todo get key value from browser 'n transfer it to method.
 
-    @GetMapping("/page/{totalPages}&books_per_page/{size}")
-    public String index(@PathVariable("totalPages") int order,
-                        @PathVariable("size") int size, Model model) {
+    @GetMapping("?{page}&{books_per_page}") // todo get key value from browser 'n transfer it to method.
+    public String index(@PathVariable("page") int order,
+                        @PathVariable("books_per_page") int size, Model model) {
         System.out.println("Hello from 45 line" + order + " " + size);
         return null;
     }
 
-    @PatchMapping("{id}/-1")
+    @PatchMapping("/{id}/return")
     public String freeBook(@ModelAttribute("id") int id, @ModelAttribute("book") Book book) {
         bookServices.freeBook(id);
-        return "redirect:/books/";
+        return "redirect:/books";
     }
 
     @PatchMapping("/{id}/assign")
