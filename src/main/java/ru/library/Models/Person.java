@@ -26,7 +26,6 @@ public class Person {
     @Column(name = "fullName")
     private String fullName;
 
-//    @Range(min = 1, max = 120, message = "out of range")
     @Column(name = "age")
     private int age;
 
@@ -132,12 +131,12 @@ public class Person {
                 '}';
     }
 
-    public int countDown() {
+    public static int countDown(Person person) {
         int days;
         Date current = new Date();
-        long diff = current.getTime() - assigned.getTime();
+        long diff = current.getTime() - person.getAssigned().getTime();
         days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-//        days = Math.toIntExact(ChronoUnit.DAYS.between(current.toInstant(), assigned.toInstant()));
+        System.out.println(days);
         return days;
     }
 

@@ -2,12 +2,14 @@ package ru.library.services;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.library.Models.Book;
 import ru.library.Models.Person;
 import ru.library.repositories.BookRepository;
 import ru.library.repositories.PeopleRepository;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +30,10 @@ public class BookServices {
 
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    public List<Book> findAll(int page, int size) {
+        return bookRepository.findAll(PageRequest.of(page, size)).getContent();
     }
 
     public Book show(String title) {
@@ -73,4 +79,14 @@ public class BookServices {
         bookRepository.save(book);
         peopleRepository.save(person);
     }
+
+    public void freeBook(int id) {
+        Book book = bookRepository.findById(id).get();
+        Person person = book.getOwner();
+        person.getBooks().remove(book);
+        book.setOwner(null);
+        bookRepository.save(book);
+        peopleRepository.save(person);
+    }
+
 }

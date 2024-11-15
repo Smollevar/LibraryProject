@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:action="@{/books}" >
+<form th:action="@{/books}">
     <input type="submit" value="Home page"/>
 </form>
 
@@ -15,34 +15,44 @@
 <p th:if="${(book.getOwner() eq null) || (book.getOwner().getPersonId() eq -1)}"> Книга свободна </p>
 
 <div th:if="${!(book.getOwner() eq null)}">
-<!--    <p>  </p>-->
+
     <div th:text= "'Книга взята: ' + ${book.getOwner().getFullName()}"></div>
+
     <div th:if="${countDown} < 30">
         <div th:text="'Дней до возврата: ' + ${30 - countDown}"> </div>
     </div>
-    <div th:if="${countDown} > 30"> Дата возврата просрочена! </div>
+
+    <div style="color:red" th:if="${countDown} > 30"> Дата возврата просрочена! </div>
+
 </div>
-<!-- todo finish with error when there is no user...-->
-<form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" >
+<!-- todo finish with error when there is no user... or it was already fixed by checkin on null when sending key countDown-->
+
+<form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
 
     <label for="person"> Выберите человека:</label>
 
     <select th:object="${book}" th:field="*{owner.personId}" id="person">
+
         <option th:each="person : ${people}" th:value="${person.getPersonId()}"
-        th:text="${person.getFullName()}"></option>
+        th:if="${person.getPersonId() > 1}" th:text="${person.getFullName()}"></option>
+
     </select>
 
     <input type="submit" value="Назначить книгу"/>
 </form>
 
 <form th:action="@{/books/{id}/edit(id=${book.getId()})}">
+
     <input type="submit" value="Edit"/>
+
 </form>
 
 <hr>
 
-<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}" >
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+
     <input type="submit" value = "Delete!"/>
+
 </form>
 
 </body>

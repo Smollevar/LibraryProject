@@ -37,6 +37,21 @@ public class BooksController {
         return "/books/index";
     }
 
+    // todo get key value from browser 'n transfer it to method.
+
+    @GetMapping("?page/{order}&books_per_page/{size}")
+    public String index(@PathVariable("order") int order,
+                        @PathVariable("size") int size, Model model) {
+        System.out.println("Hello from 45 line");
+        return null;
+    }
+
+    @PatchMapping("{id}/-1")
+    public String freeBook(@ModelAttribute("id") int id, @ModelAttribute("book") Book book) {
+        bookServices.freeBook(id);
+        return "redirect:/books/";
+    }
+
     @PatchMapping("/{id}/assign")
     public String assign(@ModelAttribute("person") Book book, @PathVariable("id") int id) {
         bookServices.assignBook(id, book.getOwner().getPersonId());
@@ -47,13 +62,12 @@ public class BooksController {
     public String show(Model model, @PathVariable("id") int id) {
         Book book = bookServices.findById(id);
         List<Person> people = peopleServices.findAll();
-//        System.out.println(people);
-//        System.out.println(book.getOwner().countDown());
-        if (book.getOwner() != null) model.addAttribute("countDown", book.getOwner().countDown());
+        if (book.getOwner() != null) model.addAttribute("countDown", Person.countDown(book.getOwner()));
         model.addAttribute("book", book);
         model.addAttribute("people", people);
         return "/books/show";
     }
+
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
