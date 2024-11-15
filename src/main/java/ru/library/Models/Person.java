@@ -130,10 +130,12 @@ public class Person {
     }
 
     public static int countDown(Person person) {
-        int days;
+        int days = 0;
         Date current = new Date();
-        long diff = current.getTime() - person.getAssigned().getTime();
-        days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        if (person.getAssigned() != null) {
+            long diff = current.getTime() - person.getAssigned().getTime();
+            days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        }
         return days;
     }
 

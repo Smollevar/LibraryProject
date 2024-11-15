@@ -66,7 +66,6 @@ public class BooksController {
         return "/books/show";
     }
 
-
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
         model.addAttribute("book", bookServices.findById(id));

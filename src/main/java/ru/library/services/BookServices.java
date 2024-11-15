@@ -80,10 +80,12 @@ public class BookServices {
     public void freeBook(int id) {
         Book book = bookRepository.findById(id).get();
         Person person = book.getOwner();
-        person.getBooks().remove(book);
+        if (person != null) {
+            person.getBooks().remove(book);
+            peopleRepository.save(person);
+        }
         book.setOwner(null);
         bookRepository.save(book);
-        peopleRepository.save(person);
     }
 
 }
