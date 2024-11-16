@@ -9,6 +9,19 @@
 <form th:action="@{/books}" >
     <input type="submit" value="Books page"/>
 </form>
+<!-- th:object="${}" -->
+<form th:action="@{/books/pagination}">
+    <label for="pageId" > Page for display </label>
+<!--    <input type="text" name="pageId" id="pageId">-->
+    <input type="text" name="page" id="pageId" value="${page}"/>
+
+<!--     name="Books page" -->
+
+<!--    <label for="bpp"> Books per page </label>-->
+<!--    <input type="number" name="Books per page" id="bpp" value=""/>-->
+
+    <input type="submit" value="get page with books"/>
+</form>
 
 <hr/>
 

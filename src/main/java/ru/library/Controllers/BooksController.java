@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.library.Models.Book;
 import ru.library.Models.Person;
-import ru.library.dao.BookDAO;
 import ru.library.dao.PersonDAO;
 import ru.library.services.BookServices;
 import ru.library.services.PeopleServices;
@@ -21,7 +20,7 @@ import java.util.List;
 public class BooksController {
     private final BookServices bookServices;
     private final PeopleServices peopleServices;
-    private BookValidator bookValidator;
+    private final BookValidator bookValidator;
 
     @Autowired
     public BooksController(BookServices bookServices, PeopleServices peopleServices, BookValidator bookValidator, PersonDAO personDAO) { // BookDAO bookDAO,
@@ -32,16 +31,26 @@ public class BooksController {
 
     @GetMapping()
     public String index(Model model) {
+        System.out.println("Common index");
         model.addAttribute("books", bookServices.findAllOrderByYear());
         return "/books/index";
     }
 
+//    @GetMapping("{page}&{books_per_page}")
+    @GetMapping("/pagination")
+    /*
+    &{books_per_page}  {page}&{books_per_page}  ?page/{totalPages}&books_per_page/{size}   /page/{totalPages}&books_per_page/{size}
+    ?page/{order}&books_per_page/{size} ?page={order}&books_per_page={size} page={order}&books_per_page={size}
+    {order}&{size} ?{order}&{size} ?{page}&{books_per_page} ?{page}&{books_per_page}/p ?page={totalPages}&books_per_page={size}
 
-    @GetMapping("?{page}&{books_per_page}") // todo get key value from browser 'n transfer it to method.
-    public String index(@PathVariable("page") int order,
-                        @PathVariable("books_per_page") int size, Model model) {
-        System.out.println("Hello from 45 line" + order + " " + size);
-        return null;
+     */
+    public String index(@ModelAttribute("page") int order,
+//                        @ModelAttribute("books_per_page") int size,
+                        Model model) {
+//        System.out.println("42 line " + order + " " + size);
+        System.out.println("42 line " + order);
+        return "redirect:/books";
+//        return null;
     }
 
     @PatchMapping("/{id}/return")
