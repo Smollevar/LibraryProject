@@ -62,7 +62,7 @@ public class PeopleServices {
     public void delete(int id) {
         List <Book> books = peopleRepository.findById(id).get().getBooks();
         for(Book book : books) {
-            book.setOwner(peopleRepository.findById(-1).get());
+            book.setOwner(null);
             bookRepository.save(book);
         }
         books.clear();
