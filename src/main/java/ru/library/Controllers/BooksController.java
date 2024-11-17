@@ -36,19 +36,26 @@ public class BooksController {
                         @RequestParam(value = "page", required = false) String page,
                         @RequestParam(value = "books_per_page", required = false) String bpp,
                         @RequestParam(value = "sort_by_year", required = false) boolean sby)
-    {
 
-        if ((page.isEmpty() || bpp.isEmpty()) && !sby) model.addAttribute(bookServices.findAll());
-        else if ((page.isEmpty() || bpp.isEmpty()) && sby) model.addAttribute(bookServices.findAllOrderByYear());
-        else if ((page == null && bpp == null) && !sby) model.addAttribute("books", bookServices.findAll());
-        else if ((page == null && bpp == null) && sby) model.addAttribute("books", bookServices.findAllOrderByYear());
+    {
+        System.out.println(page + " " + bpp + " " + sby);
+        if ((page == null || bpp == null) && !sby) model.addAttribute("books", bookServices.findAll());
+        else if ((page.isEmpty() || bpp.isEmpty()) && sby) model.addAttribute("books", bookServices.findAllOrderByYear());
+        else if ((page == null && bpp == null) && !sby){
+            System.out.println("3");
+            model.addAttribute("books", bookServices.findAll());
+        }
+        else if ((page == null && bpp == null) && sby){
+            System.out.println("4");
+            model.addAttribute("books", bookServices.findAllOrderByYear());
+        }
         else if (!(page == null && bpp == null) && sby) {
             parser(page, bpp);
-            model.addAttribute(bookServices.findAll(intPage, intBpp));
+            model.addAttribute("books", bookServices.findAll(intPage, intBpp));
         }
         else if (!(page == null && bpp == null) && !sby) {
             parser(page, bpp);
-            model.addAttribute(bookServices.findAll(intPage, intBpp, sby));
+            model.addAttribute("books", bookServices.findAll(intPage, intBpp, sby));
         }
         return "/books/index";
     }
