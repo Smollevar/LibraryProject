@@ -35,28 +35,34 @@ public class BooksController {
     public String index(Model model,
                         @RequestParam(value = "page", required = false) String page,
                         @RequestParam(value = "books_per_page", required = false) String bpp,
-                        @RequestParam(value = "sort_by_year", required = false) boolean sby)
+                        @RequestParam(value = "sort_by_year", required = false) boolean sby) {
+        int pageNumber = -1;
+        int bppNumber = -1;
+        int i = 0;
+        boolean isDigit = true;
+            if (page != null && !(page.isEmpty()) && !(bpp.isEmpty()) && bpp != null) {
+                do {
+                    if (page.charAt(i) < '0' || page.charAt(i) > '9') isDigit = false;
+                } while (++i < page.length());
 
-    {
-        System.out.println(page + " " + bpp + " " + sby);
-        if ((page == null || bpp == null) && !sby) model.addAttribute("books", bookServices.findAll());
-        else if ((page.isEmpty() || bpp.isEmpty()) && sby) model.addAttribute("books", bookServices.findAllOrderByYear());
-        else if ((page == null && bpp == null) && !sby){
-            System.out.println("3");
-            model.addAttribute("books", bookServices.findAll());
-        }
-        else if ((page == null && bpp == null) && sby){
-            System.out.println("4");
-            model.addAttribute("books", bookServices.findAllOrderByYear());
-        }
-        else if (!(page == null && bpp == null) && sby) {
-            parser(page, bpp);
-            model.addAttribute("books", bookServices.findAll(intPage, intBpp));
-        }
-        else if (!(page == null && bpp == null) && !sby) {
-            parser(page, bpp);
-            model.addAttribute("books", bookServices.findAll(intPage, intBpp, sby));
-        }
+                i = 0;
+
+                do{
+                    if (bpp.charAt(i) < '1' || bpp.charAt(i) > '9') isDigit = false;
+                } while (++i < bpp.length() && isDigit);
+
+                if (isDigit) {
+                    pageNumber = Integer.parseInt(page);
+                    bppNumber = Integer.parseInt(bpp);
+                }
+            }
+        System.out.println(pageNumber + " " + bppNumber + " " + sby);
+
+        if ((pageNumber == -1 || bppNumber < 1) && sby) model.addAttribute("books", bookServices.findAll(sby));
+        else if ((pageNumber == -1 || bppNumber < 1) && !sby) model.addAttribute("books", bookServices.findAll());
+        else if ((pageNumber != -1 && bppNumber != -1) && sby) model.addAttribute("books", bookServices.findAll(pageNumber, bppNumber, sby));
+        else model.addAttribute("books", bookServices.findAll(pageNumber, bppNumber));
+
         return "/books/index";
     }
 

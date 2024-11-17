@@ -39,7 +39,9 @@ public class BookServices {
         return bookRepository.findAll(PageRequest.of(page, size, Sort.by("year"))).getContent();
     }
 
-    public List<Book> findAllOrderByYear() {return bookRepository.findAllByOrderByYear();}
+    public List<Book> findAll(boolean sortByYear) {
+        return bookRepository.findAll(Sort.by("year"));
+    }
 
     public Book show(String title) {
         List<Book> books = findAll();
