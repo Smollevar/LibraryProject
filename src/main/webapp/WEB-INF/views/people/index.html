@@ -9,16 +9,16 @@
 <form th:action="@{/books}" >
     <input type="submit" value="Books page"/>
 </form>
-<!-- th:object="${}" -->
-<form th:action="@{/books/pagination}">
+
+<form th:action="@{/books}">
     <label for="pageId" > Page for display </label>
-<!--    <input type="text" name="pageId" id="pageId">-->
-    <input type="text" name="page" id="pageId" value="${page}"/>
+    <input type="text" name="page" id="pageId" value=""/>
 
-<!--     name="Books page" -->
+    <label for="books_per_page"> Books per page </label>
+    <input type="text" name="books_per_page" id="books_per_page" value=""/>
 
-<!--    <label for="bpp"> Books per page </label>-->
-<!--    <input type="number" name="Books per page" id="bpp" value=""/>-->
+    <label for="sort_by_year"> Sort by year </label>
+    <input type="checkbox" name="sort_by_year" id="sort_by_year" checked="checked">
 
     <input type="submit" value="get page with books"/>
 </form>

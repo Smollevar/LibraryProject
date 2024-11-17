@@ -21,6 +21,8 @@ public class BooksController {
     private final BookServices bookServices;
     private final PeopleServices peopleServices;
     private final BookValidator bookValidator;
+    private int intPage;
+    private int intBpp;
 
     @Autowired
     public BooksController(BookServices bookServices, PeopleServices peopleServices, BookValidator bookValidator, PersonDAO personDAO) { // BookDAO bookDAO,
@@ -30,27 +32,25 @@ public class BooksController {
     }
 
     @GetMapping()
-    public String index(Model model) {
-        System.out.println("Common index");
-        model.addAttribute("books", bookServices.findAllOrderByYear());
+    public String index(Model model,
+                        @RequestParam(value = "page", required = false) String page,
+                        @RequestParam(value = "books_per_page", required = false) String bpp,
+                        @RequestParam(value = "sort_by_year", required = false) boolean sby)
+    {
+
+        if ((page.isEmpty() || bpp.isEmpty()) && !sby) model.addAttribute(bookServices.findAll());
+        else if ((page.isEmpty() || bpp.isEmpty()) && sby) model.addAttribute(bookServices.findAllOrderByYear());
+        else if ((page == null && bpp == null) && !sby) model.addAttribute("books", bookServices.findAll());
+        else if ((page == null && bpp == null) && sby) model.addAttribute("books", bookServices.findAllOrderByYear());
+        else if (!(page == null && bpp == null) && sby) {
+            parser(page, bpp);
+            model.addAttribute(bookServices.findAll(intPage, intBpp));
+        }
+        else if (!(page == null && bpp == null) && !sby) {
+            parser(page, bpp);
+            model.addAttribute(bookServices.findAll(intPage, intBpp, sby));
+        }
         return "/books/index";
-    }
-
-//    @GetMapping("{page}&{books_per_page}")
-    @GetMapping("/pagination")
-    /*
-    &{books_per_page}  {page}&{books_per_page}  ?page/{totalPages}&books_per_page/{size}   /page/{totalPages}&books_per_page/{size}
-    ?page/{order}&books_per_page/{size} ?page={order}&books_per_page={size} page={order}&books_per_page={size}
-    {order}&{size} ?{order}&{size} ?{page}&{books_per_page} ?{page}&{books_per_page}/p ?page={totalPages}&books_per_page={size}
-
-     */
-    public String index(@ModelAttribute("page") int order,
-//                        @ModelAttribute("books_per_page") int size,
-                        Model model) {
-//        System.out.println("42 line " + order + " " + size);
-        System.out.println("42 line " + order);
-        return "redirect:/books";
-//        return null;
     }
 
     @PatchMapping("/{id}/return")
@@ -108,6 +108,11 @@ public class BooksController {
     public String delete(@PathVariable("id") int id) {
         bookServices.delete(id);
         return "redirect:/books";
+    }
+
+    private void parser(String page, String bpp) {
+        intPage = Integer.parseInt(page);
+        intBpp = Integer.parseInt(bpp);
     }
 
 }

@@ -3,17 +3,16 @@ package ru.library.services;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.library.Models.Book;
 import ru.library.Models.Person;
 import ru.library.repositories.BookRepository;
 import ru.library.repositories.PeopleRepository;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -36,6 +35,12 @@ public class BookServices {
         return bookRepository.findAll(PageRequest.of(page, size)).getContent();
     }
 
+    public List<Book> findAll(int page, int size, boolean sortByYear) {
+        return bookRepository.findAll(PageRequest.of(page, size, Sort.by("year"))).getContent();
+    }
+
+    public List<Book> findAllOrderByYear() {return bookRepository.findAllByOrderByYear();}
+
     public Book show(String title) {
         List<Book> books = findAll();
         return books.stream().filter(b -> b.getTitle().equals(title)).findFirst().orElse(null);
@@ -44,8 +49,6 @@ public class BookServices {
     public List<Book> findAllOrderById() {
         return bookRepository.findAllByOrderById();
     }
-
-    public List<Book> findAllOrderByYear() {return bookRepository.findAllByOrderByYear();}
 
     public Book findById(int id) {
         return bookRepository.findById(id).orElse(null);
