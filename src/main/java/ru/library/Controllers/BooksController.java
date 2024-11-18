@@ -21,8 +21,6 @@ public class BooksController {
     private final BookServices bookServices;
     private final PeopleServices peopleServices;
     private final BookValidator bookValidator;
-    private int intPage;
-    private int intBpp;
 
     @Autowired
     public BooksController(BookServices bookServices, PeopleServices peopleServices, BookValidator bookValidator, PersonDAO personDAO) { // BookDAO bookDAO,
@@ -63,6 +61,16 @@ public class BooksController {
         else model.addAttribute("books", bookServices.findAll(pageNumber, bppNumber));
 
         return "/books/index";
+    }
+
+    @GetMapping("/finder")
+    public String show(Model model, @RequestParam(value = "book", required = false) String book) {
+        System.out.println(book);
+        Book foundedBook = null;
+        foundedBook= bookServices.findByTitle(book);
+        System.out.println(foundedBook);
+        model.addAttribute("founded", foundedBook);
+        return "/books/finder";
     }
 
     @PatchMapping("/{id}/return")
@@ -120,11 +128,6 @@ public class BooksController {
     public String delete(@PathVariable("id") int id) {
         bookServices.delete(id);
         return "redirect:/books";
-    }
-
-    private void parser(String page, String bpp) {
-        intPage = Integer.parseInt(page);
-        intBpp = Integer.parseInt(bpp);
     }
 
 }

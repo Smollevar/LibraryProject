@@ -1,6 +1,7 @@
 package ru.library.services;
 
 import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -54,6 +55,12 @@ public class BookServices {
 
     public Book findById(int id) {
         return bookRepository.findById(id).orElse(null);
+    }
+
+    public Book findByTitle(String title) {
+        Book book = bookRepository.findByTitle(title);
+        Hibernate.initialize(book);
+        return book;
     }
 
     public void delete(int id) {

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/books}" >
+    <input type="submit" value="Books page"/>
+</form>
+
+<div th:if="${!(founded eq null)}">
+
+    <div th:text="${founded.getTitle()}"></div>
+    <div th:if="${!(founded.getOwner() eq null)}">
+        <div th:text="'Книга сейчас у: ' + ${founded.getOwner().getFullName()}"></div>
+    </div>
+
+</div>
+
+<br/>
+
+<div th:if="${founded eq null}">
+    <div> Enter few characters of desired book: </div>
+</div>
+
+<br/>
+
+<form th:action="@{/books/finder}">
+
+    <label for="nameOfBook"> nameOfBook </label>
+    <input type="text" name="book" id="nameOfBook" value=""/>
+
+    <input type="submit" value="Find!"/>
+
+</form>
+
+</body>
+</html>
