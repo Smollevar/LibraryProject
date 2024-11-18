@@ -56,11 +56,10 @@ public class BooksController {
                     bppNumber = Integer.parseInt(bpp);
                 }
             }
-        System.out.println(pageNumber + " " + bppNumber + " " + sby);
 
-        if ((pageNumber == -1 || bppNumber < 1) && sby) model.addAttribute("books", bookServices.findAll(sby));
-        else if ((pageNumber == -1 || bppNumber < 1) && !sby) model.addAttribute("books", bookServices.findAll());
-        else if ((pageNumber != -1 && bppNumber != -1) && sby) model.addAttribute("books", bookServices.findAll(pageNumber, bppNumber, sby));
+        if ((pageNumber < 0 || bppNumber < 1) && sby) model.addAttribute("books", bookServices.findAll(sby));
+        else if ((pageNumber < 0 || bppNumber < 1) && !sby) model.addAttribute("books", bookServices.findAll());
+        else if ((pageNumber > -1 && bppNumber != -1) && sby) model.addAttribute("books", bookServices.findAll(pageNumber, bppNumber, sby));
         else model.addAttribute("books", bookServices.findAll(pageNumber, bppNumber));
 
         return "/books/index";

@@ -10,6 +10,28 @@
     <input type="submit" value="People page"/>
 </form>
 
+<!-- todo edit @{/people} below-->
+<form th:action="@{/people}">
+    <input type="submit" value="Find book by name"/>
+</form>
+
+<form th:action="@{/books}">
+    <label for="pageId" > Page for display </label>
+    <input type="text" name="page" id="pageId" value=""/>
+
+    <label for="books_per_page"> Books per page </label>
+    <input type="text" name="books_per_page" id="books_per_page" value=""/>
+
+    <label for="sort_by_year"> Sort by year </label>
+    <input type="checkbox" name="sort_by_year" id="sort_by_year" checked="checked">
+
+    <input type="submit" value="get page with books"/>
+</form>
+
+<form th:action="@{/books}" >
+    <input type="submit" value="To all books"/>
+</form>
+
 <hr/>
 
 <form th:action="@{/books/new}" >
