@@ -58,8 +58,29 @@ public class BookServices {
     }
 
     public Book findByTitle(String title) {
-        Book book = bookRepository.findByTitle(title);
-        Hibernate.initialize(book);
+        List<Book> books = bookRepository.findAll();
+        Hibernate.initialize(books);
+        Book book = null;
+
+        boolean foundIt;
+        int i = 0;
+        int j;
+
+        while(i < books.size() && book == null) { // books != null &&
+            String bookTitle = books.get(i).getTitle();
+            j = 0;
+            foundIt = true;
+            while(j < bookTitle.length() && j < title.length() && foundIt) {
+                if (bookTitle.charAt(j) == title.charAt(j)) {
+                    j++;
+                }
+                else if (bookTitle.charAt(j) != title.charAt(j)) foundIt = false;
+            }
+            if (foundIt && (j == title.length() || j == bookTitle.length())) {
+                book = books.get(i);
+                Hibernate.initialize(book);
+            } else i++;
+        }
         return book;
     }
 

@@ -63,6 +63,11 @@ public class BooksController {
         return "/books/index";
     }
 
+    @GetMapping("/finder/first_time")
+    public String finderFirstTime() {
+        return "/books/finder";
+    }
+
     @GetMapping("/finder")
     public String show(Model model, @RequestParam(value = "book", required = false) String book) {
         System.out.println(book);
